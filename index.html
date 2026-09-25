@@ -120,6 +120,23 @@
     .contact-grid{grid-template-columns:1fr;gap:36px;}
     .inquiry-form{grid-template-columns:1fr;}
   }
+  /* ---------- READINESS CHECK BAND ---------- */
+  .check-band{background:var(--pine-2);color:var(--cream);padding:48px 0;}
+  .check-inner{display:flex;align-items:center;justify-content:space-between;gap:32px;}
+  .check-band h2{font-family:'Big Shoulders Display',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.02em;font-size:clamp(28px,4vw,40px);color:var(--cream);margin:10px 0 10px;line-height:1;}
+  .check-band p{margin:0;color:#d9d2c0;max-width:62ch;}
+  .check-band .btn{flex-shrink:0;}
+  @media (max-width:760px){.check-inner{flex-direction:column;align-items:flex-start;}}
+  /* ---------- HOW IT WORKS ---------- */
+  .how-steps{list-style:none;counter-reset:s;padding:0;margin:18px 0 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .how-steps li{counter-increment:s;background:var(--paper-2);border:1px solid var(--line-soft);border-radius:var(--radius);padding:18px 18px 16px;font-size:15px;color:var(--ink-soft);}
+  .how-steps li::before{content:counter(s,decimal-leading-zero);display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);margin-bottom:6px;}
+  .how-steps b{color:var(--ink);}
+  @media (max-width:760px){.how-steps{grid-template-columns:1fr;}}
+  /* ---------- URGENT NOTE ---------- */
+  .urgent{border-left:3px solid var(--accent);padding:4px 0 4px 14px;margin:0 0 22px;font-size:15px;color:#d9d2c0;}
+  .urgent b{color:var(--cream);}
+  .urgent a{color:var(--cream);text-decoration:underline;text-underline-offset:3px;}
 </style>
 </head>
 <body>
@@ -133,6 +150,7 @@
         <a href="#approach">Approach</a>
         <a href="#engagements">Engagements</a>
         <a href="#about">About</a>
+        <a href="/check/">Free check</a>
         <a class="btn small" href="#contact">Book a consult</a>
       </nav>
     </div>
@@ -143,7 +161,7 @@
         <p class="lead">I help organizations without a full-time CISO find the risks that could actually hurt them, prioritize what matters, and build a security program that holds up under an audit, an incident, or a board question.</p>
         <div class="btn-row">
           <a class="btn" href="#contact">Book a 30-minute consult &rarr;</a>
-          <a class="btn ghost" href="#approach">See how I work</a>
+          <a class="btn ghost" href="/check/">Take the free Readiness Check</a>
         </div>
       </div>
       <aside class="cred">
@@ -169,6 +187,17 @@
         <div class="tile"><div class="num">03</div><h3>You run plants or industrial systems</h3><p>OT/ICS risk looks different from IT risk, and your plan should too.</p></div>
         <div class="tile"><div class="num">04</div><h3>Your teams are adopting AI fast</h3><p>You need governance and guardrails before sensitive data walks out the door.</p></div>
       </div>
+    </div>
+  </section>
+
+  <section class="check-band" aria-labelledby="check-title">
+    <div class="wrap check-inner">
+      <div>
+        <div class="eyebrow">Free &middot; 5 minutes &middot; No sign-up</div>
+        <h2 id="check-title">Not sure where you stand?</h2>
+        <p>Take the Security Readiness Check: plain-language questions built on CISA's Cybersecurity Performance Goals and the NIST Cybersecurity Framework. You'll get a score, your top five fixes with free government guides, and a PDF to share with leadership.</p>
+      </div>
+      <a class="btn" href="/check/">Start the check &rarr;</a>
     </div>
   </section>
 
@@ -206,6 +235,11 @@
     <div class="wrap">
       <h2 class="section-title">Ways to work together</h2>
       <p class="section-sub">Every engagement starts with a free 30-minute conversation.</p>
+      <ol class="how-steps">
+        <li><b>Free call.</b> 30 minutes to understand what's driving the need and whether I'm the right fit.</li>
+        <li><b>Written scope.</b> A short statement of work under one services agreement, with clear scope and pricing and no surprises.</li>
+        <li><b>Kickoff.</b> We start on a date that works for your team, and you always know what's next.</li>
+      </ol>
       <div class="row-label">vCISO retainers</div>
       <div class="tile-grid three">
         <div class="package-card">
@@ -236,7 +270,7 @@
           <div class="package-tag">2–3 weeks</div>
           <div class="package-name">Security Baseline Assessment</div>
           <div class="package-price">$7,500–$10,000<span></span></div>
-          <div class="package-fw">CISA CPG 2.0 or CIS Controls IG1</div>
+          <div class="package-fw">CISA CPGs or CIS Controls IG1</div>
           <p class="package-desc">Scored against a focused set of high-impact IT and OT practices, with gaps ranked and a 90-day action plan. Best for small and mid-sized businesses and manufacturers getting started.</p>
           <a class="btn ghost" href="#contact">Start with a baseline</a>
         </div>
@@ -301,6 +335,7 @@
       <div>
         <h2>Start with a 30-minute conversation.</h2>
         <p class="lead-f">Tell me what's driving the question: a customer, an audit, an incident, or a feeling that nobody's minding the store. I'll tell you honestly whether I'm the right fit.</p>
+        <p class="urgent"><b>Active incident?</b> Email <a href="mailto:jeff@jcady.org?subject=URGENT%20-%20Active%20incident">jeff@jcady.org</a> with &ldquo;URGENT&rdquo; in the subject line. Business hours, with best-effort response after hours. Contact your cyber insurer and legal counsel too.</p>
         <div class="social-links">
           <a href="mailto:jeff@jcady.org">jeff@jcady.org</a>
           <a href="https://www.linkedin.com/in/jeffreycady/" target="_blank" rel="noopener">LinkedIn</a>
@@ -322,7 +357,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2026 Jeffrey Cady. All rights reserved.</span>
+      <span>&copy; 2026 JCady LLC. All rights reserved. Jeff Cady Security is a service of JCady LLC.</span>
       <span>CISSP &middot; Goodyear, AZ &middot; Serving clients remotely</span>
     </div>
   </div>
