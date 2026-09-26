@@ -108,6 +108,17 @@ input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{out
 .keep p{margin:0;font-size:16px;color:var(--ink-soft);max-width:60ch}
 .keep .btn{flex-shrink:0}
 @media (max-width:680px){.keep{flex-direction:column;align-items:flex-start}}
+.asked{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0 6px;font-size:12.5px}
+.asked b{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-right:4px}
+.asked span{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 8px;border:1px solid var(--line);border-radius:2px;color:var(--ink)}
+.roi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 14px;margin-bottom:14px;align-items:end}
+@media (max-width:760px){.roi-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:460px){.roi-grid{grid-template-columns:1fr}}
+.roi-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:12px}
+.roi-card{background:var(--paper);border:1px solid var(--line-soft);border-left:4px solid var(--accent);padding:12px 14px}
+.roi-card b{display:block;font-family:'Big Shoulders Display',sans-serif;font-size:30px;line-height:1.05}
+.roi-card span{font-size:13.5px;color:var(--ink-soft)}
+.roi-note{font-size:13px;font-style:italic;color:var(--ink-soft);margin:0}
 footer.foot{border-top:1px solid var(--line-soft);padding:24px 0 40px;font-size:14px;color:var(--ink-soft)}
 footer.foot .mono{font-family:'IBM Plex Mono',monospace;font-size:12px}
 </style>
@@ -176,6 +187,20 @@ footer.foot .mono{font-family:'IBM Plex Mono',monospace;font-size:12px}
       <h2>Your top priorities</h2>
       <p class="sub">The fixes that make the biggest difference for the effort, each with a free how-to guide.</p>
       <div id="prios"></div>
+    </div>
+    <div class="panel" id="roi">
+      <h2>Answer once. Use it everywhere.</h2>
+      <p class="sub">Why the same security questions keep landing on your desk, and what it's costing you.</p>
+      <p style="margin:0 0 14px">Your cyber insurer, your biggest customers, and your auditors all ask about the same practices, just in different words. Most companies treat every questionnaire as a brand-new project, and nobody tells them it's the same work each time. When each practice is documented once, with the proof saved where it already lives, the next questionnaire becomes copy-and-paste instead of a scramble.</p>
+      <p id="roiIns" style="margin:0 0 16px;font-weight:600"></p>
+      <div class="roi-grid">
+        <label class="f">Annual revenue (optional)<input type="text" inputmode="numeric" id="roiRev" placeholder="e.g., 15,000,000"></label>
+        <label class="f">Questionnaires, audits, and insurance applications per year<input type="text" inputmode="numeric" id="roiQ" placeholder="4"></label>
+        <label class="f">Hours each one takes your team<input type="text" inputmode="numeric" id="roiH" placeholder="12"></label>
+        <label class="f">Hourly cost of the people doing it<input type="text" inputmode="numeric" id="roiRate" placeholder="75"></label>
+      </div>
+      <div id="roiOut"></div>
+      <p class="roi-note">These are rough estimates for discussion, not a guarantee. Downtime shows lost revenue only; recovery, response, and legal costs come on top. For scale, IBM's 2025 Cost of a Data Breach Report puts the average U.S. breach at $10.22 million, though that average is driven by larger organizations.</p>
     </div>
     <div class="btn-row" style="margin:0 0 22px"><button class="btn" type="button" id="pdf" data-pdf>Download my PDF report</button><button class="btn ghost" type="button" id="retake">Retake the check</button></div>
     <div class="cta">
@@ -250,6 +275,15 @@ const FNS=[
   ["RC3","Do you have a plan for what to tell customers, employees, and partners during an outage or breach?","",2,"CSF RC.CO","csf","How you communicate during a crisis shapes trust long after systems are back.","Write short draft messages now, and decide who approves anything shared outside the company."]]}
 ];
 const VAL={"2":"Yes","1":"Partly","0":"No","u":"Not sure"};
+// Practices commonly asked about on cyber insurance applications
+const INS=new Set(["ID3","PR1","PR3","PR4","PR5","PR6","DE1","DE3","RS1","RS2","RC1"]);
+const NISTFN={GV:"Govern",ID:"Identify",PR:"Protect",DE:"Detect",RS:"Respond",RC:"Recover"};
+function askedIn(q,f){const a=[];if(INS.has(q[0]))a.push("Cyber insurance applications");a.push("Customer security questionnaires");const r=q[4];
+  if(r.startsWith("CPG"))a.push("CISA "+r);a.push("NIST CSF: "+NISTFN[f.id]+(r.startsWith("CSF")?" ("+r.slice(4)+")":""));return a}
+const money=n=>"$"+Math.round(n).toLocaleString("en-US");
+const num=v=>{const n=parseFloat(String(v||"").replace(/[^0-9.]/g,""));return isFinite(n)?n:0};
+function roiCalc(){const r=S.roi||{};const rev=num(r.rev),q=num(r.q||4),h=num(r.h||12),rate=num(r.rate||75);
+  return {rev,q,h,rate,day:rev?rev/260:0,hours:q*h,cost:q*h*rate}}
 const VCOL={"2":"var(--yes)","1":"var(--part)","0":"var(--no)","u":"var(--unk)"};
 const TIERS=[[85,"Resilient","#1B2A1F","You're in great shape","You have most of the basics in place. Keep testing them, and keep them current as your business changes."],
              [65,"Established","#3f6b43","A good foundation, with a few gaps","Most of the basics are in place. Fixing the gaps below would noticeably lower your risk."],
@@ -305,12 +339,19 @@ function radarSVG(fn){
   fn.forEach((x,i)=>{const [px,py]=pt(i,Math.max(.02,x.pct/100));s+=`<circle cx="${px}" cy="${py}" r="4" fill="#CB5A28"/>`});
   return s+"</svg>";
 }
+function renderRoi(){const R=score();const insGaps=R.gaps.filter(g=>INS.has(g.q[0]));
+  $("roiIns").textContent=insGaps.length?`${insGaps.length} of your gaps ${insGaps.length===1?"is a practice":"are practices"} cyber insurers commonly ask about on applications and renewals. Fixing ${insGaps.length===1?"it":"them"} helps with coverage and premiums, not just security.`:"None of your gaps are among the practices cyber insurers most commonly ask about. Documenting that evidence now makes renewals faster.";
+  const c=roiCalc();let h="";
+  if(c.day)h+=`<div class="roi-card"><b>${money(c.day)}</b><span>Revenue from one business day offline</span></div><div class="roi-card"><b>${money(c.day*5)}</b><span>A one-week outage, before recovery costs</span></div>`;
+  if(c.hours)h+=`<div class="roi-card"><b>${Math.round(c.hours).toLocaleString("en-US")} hrs</b><span>Spent answering security questions each year (${money(c.cost)})</span></div><div class="roi-card"><b>${money(c.cost/2)}</b><span>Back each year if reusable evidence cut that time in half</span></div>`;
+  $("roiOut").innerHTML=h?`<div class="roi-cards">${h}</div>`:"";}
 function renderResults(){
   const R=score();const t=R.tier;
   $("rScore").innerHTML=`${R.total}<small>/100</small>`;$("rTier").textContent=t[1];$("rTier").style.background=t[2]==="#1B2A1F"?"#CB5A28":t[2];$("rHead").textContent=t[3];$("rText").textContent=t[4];
   $("radar").innerHTML=radarSVG(R.fn);
   $("fbars").innerHTML=R.fn.map(x=>`<div class="fbar"><div class="lbl"><span>${x.f.name}</span><span>${x.pct}%</span></div><div class="track"><i style="width:${x.pct}%;background:${tcol(x.pct)}"></i></div></div>`).join("");
-  $("prios").innerHTML=R.gaps.length?R.gaps.slice(0,5).map((g,i)=>{const gd=G[g.q[5]];return `<div class="prio"><div class="n">${i+1}</div><div><div class="tag">${g.f.name} · You answered: ${VAL[g.v]}</div><h3>${esc(shortTitle(g.q))}</h3><p><b>Why it matters</b>${esc(g.q[6])}</p><p><b>First step</b>${esc(g.q[7])}</p><a class="guide" href="${gd.u}" target="_blank" rel="noopener">Guide: ${esc(gd.t)} ↗</a></div></div>`}).join(""):'<p class="sub" style="margin:0">No gaps: every answer was "Yes." Consider an outside assessment to validate that these practices work as intended.</p>';
+  $("prios").innerHTML=R.gaps.length?R.gaps.slice(0,5).map((g,i)=>{const gd=G[g.q[5]];return `<div class="prio"><div class="n">${i+1}</div><div><div class="tag">${g.f.name} · You answered: ${VAL[g.v]}</div><h3>${esc(shortTitle(g.q))}</h3><p><b>Why it matters</b>${esc(g.q[6])}</p><p><b>First step</b>${esc(g.q[7])}</p><div class="asked"><b>Shows up in</b>${askedIn(g.q,g.f).map(x=>`<span>${esc(x)}</span>`).join("")}</div><a class="guide" href="${gd.u}" target="_blank" rel="noopener">Guide: ${esc(gd.t)} ↗</a></div></div>`}).join(""):'<p class="sub" style="margin:0">No gaps: every answer was "Yes." Consider an outside assessment to validate that these practices work as intended.</p>';
+  renderRoi();
   $("answers").innerHTML=FNS.map(f=>`<div class="fn-h">${f.name}</div>`+qsOf(f).map(q=>{const v=S.a[q[0]];return `<div class="ans"><span>${esc(q[1])}</span><span class="pill" style="background:${VCOL[v]||"var(--unk)"}">${VAL[v]||"—"}</span></div>`}).join("")).join("");
 }
 function shortTitle(q){const m={GV1:"Put one person in charge of security",GV2:"Write down basic security rules",GV3:"Make vendors tell you about breaches",GV4:"Talk about security at the leadership level",ID1:"List everything you have",ID2:"Know where sensitive information lives",ID3:"Update internet-facing systems fast",ID4:"Get an outside security check",PR1:"Add a second login step",PR2:"Fix factory-set and weak passwords",PR3:"Limit admin access and cut off leavers",PR4:"Train everyone every year",PR5:"Stop fake emails in your name",PR6:"Keep a backup hackers can't reach",PR7:"Separate production from office networks",PR8:"Take production systems off the internet",DE1:"Keep records of important activity",DE2:"Make sure alerts reach a person",DE3:"Put watched security software everywhere",RS1:"Write a plan for getting hacked",RS2:"Practice the plan",RS3:"Know who to call",RC1:"Test restoring from backup",RC2:"Decide what to restore first",RC3:"Plan what you'll tell people"};return m[q[0]]||q[1]}
@@ -369,7 +410,16 @@ async function makePdf(){
     doc.setFont("courier","normal");doc.setFontSize(7.5);color(P.soft);doc.text(clean(`${g.f.name.toUpperCase()}  \u00B7  YOU ANSWERED: ${VAL[g.v].toUpperCase()}`),M+24,y);y+=12;
     para("Why it matters: "+g.q[6],{x:M+24,w:CW-24,size:10,after:1});para("First step: "+g.q[7],{x:M+24,w:CW-24,size:10,after:1});
     doc.setFont("helvetica","bold");doc.setFontSize(9);color(P.accent);need(14);doc.textWithLink(clean("Guide: "+gd.t+"  \u2192"),M+24,y,{url:gd.u});y+=10;
-    doc.setFont("courier","normal");doc.setFontSize(7);color(P.soft);doc.text(gd.u,M+24,y);y+=18});
+    doc.setFont("courier","normal");doc.setFontSize(7);color(P.soft);doc.text(gd.u,M+24,y);y+=11;
+    doc.setFont("courier","normal");doc.setFontSize(7);color(P.soft);doc.text(doc.splitTextToSize(clean("SHOWS UP IN: "+askedIn(g.q,g.f).join("  \u00B7  ")),CW-24),M+24,y);y+=18});
+  // answer once
+  {const insGaps=R.gaps.filter(g=>INS.has(g.q[0]));const c=roiCalc();need(120);y+=4;
+    doc.setFont("helvetica","bold");doc.setFontSize(11);color(P.ink);doc.text("ANSWER ONCE. USE IT EVERYWHERE.",M,y);y+=15;
+    para("Your cyber insurer, your biggest customers, and your auditors all ask about the same practices in different words. Most companies treat every questionnaire as a new project. When each practice is documented once, with the proof saved where it already lives, the next questionnaire becomes copy-and-paste instead of a scramble.",{size:10,after:4});
+    if(insGaps.length)para(`${insGaps.length} of your gaps ${insGaps.length===1?"is a practice":"are practices"} cyber insurers commonly ask about on applications and renewals.`,{size:10,s:"bold",f:"helvetica",after:4});
+    if(c.day)para(`One business day offline: about ${money(c.day)} in revenue; a one-week outage, about ${money(c.day*5)} before recovery costs.`,{size:10,after:2});
+    if(c.hours)para(`Answering security questions: about ${Math.round(c.hours)} hours (${money(c.cost)}) a year. Reusable evidence that halved that time would return about ${money(c.cost/2)} a year.`,{size:10,after:2});
+    para("Rough estimates for discussion, not a guarantee. For scale, IBM's 2025 Cost of a Data Breach Report puts the average U.S. breach at $10.22 million, an average driven by larger organizations.",{size:8.5,s:"italic",c:P.soft,after:8})}
   // answers
   doc.addPage();y=M;doc.setFont("helvetica","bold");doc.setFontSize(16);color(P.pine);doc.text("YOUR ANSWERS",M,y);y+=8;color(P.accent,"setDrawColor");doc.setLineWidth(1.2);doc.line(M,y,W-M,y);y+=18;
   FNS.forEach(f=>{need(30);doc.setFont("courier","bold");doc.setFontSize(9);color(P.accent);doc.text(f.name.toUpperCase(),M,y);y+=12;
@@ -384,6 +434,8 @@ async function makePdf(){
   await offer(`Security-Readiness-Check${S.org?"-"+S.org.replace(/[^a-z0-9]+/gi,"-"):""}.pdf`,doc.output("blob"));
 };
 
+// ROI inputs
+S.roi=S.roi||{};[["roiRev","rev"],["roiQ","q"],["roiH","h"],["roiRate","rate"]].forEach(([id,k])=>{const el=$(id);el.value=S.roi[k]||"";el.addEventListener("input",()=>{S.roi[k]=el.value;save();renderRoi()})});
 // resume
 if(S.done&&Object.keys(S.a).length){renderResults();show("s-r")}
 </script>
