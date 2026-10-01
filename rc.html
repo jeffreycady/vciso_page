@@ -362,10 +362,10 @@ const FORMSPREE="https://formspree.io/f/xyezjada";
 // HubSpot: creates the contact with score and band only. Individual answers are never sent to the CRM.
 const HS={portal:"247579077",form:"6be83726-62ae-4874-8c46-d8ab80c7f808",hosts:["https://api-na2.hsforms.com","https://api.hsforms.com"],
   // internal names of the fields on the HubSpot form; change these if HubSpot named the properties differently
-  names:{first:"firstname",last:"lastname",email:"email",company:"company",score:"readiness_score",band:"readiness_band",source:"lead_source_detail"}};
+  names:{first:"firstname",last:"lastname",email:"email",company:"company",size:"company_size",score:"readiness_score",band:"readiness_band",source:"lead_source_detail"}};
 async function hubspotLead(d){
   const parts=String(d.name||"").trim().split(/\s+/);const first=parts.shift()||"";const last=parts.join(" ");
-  let fields=[[HS.names.email,d.email],[HS.names.first,first],[HS.names.last,last],[HS.names.company,d.company],[HS.names.score,String(d.score)],[HS.names.band,d.band],[HS.names.source,"Readiness Check"]]
+  let fields=[[HS.names.email,d.email],[HS.names.first,first],[HS.names.last,last],[HS.names.company,d.company||"Not given"],[HS.names.size,d.size||"Not given"],[HS.names.score,String(d.score)],[HS.names.band,d.band],[HS.names.source,"Readiness Check"]]
     .filter(f=>f[0]&&f[1]).map(f=>({objectTypeId:"0-1",name:f[0],value:f[1]}));
   const ctx={pageUri:location.href.split("?")[0],pageName:"Security Readiness Check"};
   for(const host of HS.hosts){
@@ -391,7 +391,7 @@ $("send").onclick=async()=>{
   const answers=FNS.map(f=>f.name.toUpperCase()+"\n"+qsOf(f).map(q=>`- [${VAL[S.a[q[0]]]||"-"}] ${q[1]}`).join("\n")).join("\n\n");
   const body={_subject:`Readiness Check: ${R.total}/100 (${R.tier[1]})${S.org?" — "+S.org:""}`,name:$("cName").value,email:$("cEmail").value.trim(),organization:S.org,employees:S.size,industry:S.industry,ot:S.ot,score:R.total,tier:R.tier[1],by_function:R.fn.map(x=>`${x.f.name} ${x.pct}%`).join(", "),top_priorities:R.gaps.slice(0,5).map(g=>shortTitle(g.q)).join("; "),message:$("cMsg").value,answers};
   try{const r=await fetch(FORMSPREE,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(body)});
-    if(!r.ok)throw new Error(r.status);hubspotLead({name:body.name,email:body.email,company:S.org,score:R.total,band:R.tier[1]}).catch(()=>{});$("cmsg").style.color="var(--cream)";$("cmsg").textContent="Sent. I'll reply within one business day. — Jeff";}
+    if(!r.ok)throw new Error(r.status);hubspotLead({name:body.name,email:body.email,company:S.org,size:S.size,score:R.total,band:R.tier[1]}).catch(()=>{});$("cmsg").style.color="var(--cream)";$("cmsg").textContent="Sent. I'll reply within one business day. — Jeff";}
   catch(e){$("cmsg").style.color="#F2B8A0";$("cmsg").innerHTML=`That didn't go through. Please email <a style="color:var(--cream)" href="mailto:jeff@jcady.org?subject=${encodeURIComponent("Readiness Check: "+R.total+"/100")}">jeff@jcady.org</a> and attach your PDF report.`;btn.disabled=false}
 };
 
