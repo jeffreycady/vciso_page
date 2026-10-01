@@ -111,6 +111,8 @@
   .social-links{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
   .social-links a{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--cream);text-decoration:none;border:1px solid rgba(247,242,231,0.32);padding:11px 20px;border-radius:22px;}
   .social-links a:hover{border-color:var(--accent);color:var(--accent);background:rgba(203,90,40,0.1);}
+  [hidden]{display:none !important;}
+  #hsWrap{min-height:40px;}
   .inquiry-form{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
   .inquiry-form .full{grid-column:1 / -1;}
   .field{display:flex;flex-direction:column;gap:8px;}
@@ -351,7 +353,13 @@
       </div>
       <div>
         <div id="formStatus" class="form-status" hidden>Thanks &mdash; that's sent. I'll get back to you within one business day.</div>
-        <form id="inquiryForm" class="inquiry-form" action="https://formspree.io/f/xyezjada" method="POST">
+        <!-- HubSpot form: submissions create the contact in the CRM. -->
+        <div id="hsWrap">
+          <script src="https://js-na2.hsforms.net/forms/embed/247579077.js" defer></script>
+          <div class="hs-form-frame" data-region="na2" data-form-id="0956b6e6-23d8-4293-8650-5608906701bb" data-portal-id="247579077"></div>
+        </div>
+        <!-- Fallback: shown only if the HubSpot form is blocked (ad or tracker blockers) or fails to load. -->
+        <form id="inquiryForm" class="inquiry-form" action="https://formspree.io/f/xyezjada" method="POST" hidden>
           <div class="field"><label for="inq-name">Name</label><input type="text" id="inq-name" name="name" required autocomplete="name"></div>
           <div class="field"><label for="inq-company">Company</label><input type="text" id="inq-company" name="company" autocomplete="organization"></div>
           <div class="field full"><label for="inq-email">Work email</label><input type="email" id="inq-email" name="email" required autocomplete="email"></div>
@@ -377,6 +385,18 @@
   });
   const nextField = document.getElementById('inq-next');
   if (nextField) nextField.value = window.location.origin + window.location.pathname + '?sent=true#contact';
+  // If the HubSpot form has not rendered after 4 seconds, show the built-in form instead.
+  const hsWrap = document.getElementById('hsWrap');
+  const fallbackForm = document.getElementById('inquiryForm');
+  const sent = window.location.search.includes('sent=true');
+  if (hsWrap && fallbackForm && !sent) {
+    setTimeout(function () {
+      const frame = hsWrap.querySelector('.hs-form-frame');
+      const rendered = frame && (frame.querySelector('iframe, form') || frame.offsetHeight > 40);
+      if (!rendered) { hsWrap.hidden = true; fallbackForm.hidden = false; }
+    }, 4000);
+  }
+  if (sent && hsWrap) hsWrap.hidden = true;
   if (window.location.search.includes('sent=true')) {
     const status = document.getElementById('formStatus');
     if (status) status.hidden = false;
