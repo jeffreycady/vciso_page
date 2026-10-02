@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Family Security Playbook Demo</title>
+<style>
+:root{--primary:#1B2A1F;--accent:#CB5A28;--accent-ink:#A8461C;--bg:#FBF8F1;--card:#FFFFFF;--ink:#1F241E;--soft:#55604F;--line:#CFC7B2;--ok:#2F6B3A;--bad:#9B2D1C;--tip:#F3EEDF}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:19px/1.55 Georgia,'Times New Roman',serif}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px}
+header{background:var(--primary);color:#F7F2E7;padding:18px 0}
+header .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+header img{max-height:44px;max-width:160px;background:#fff;border-radius:4px;padding:3px}
+header b{font:700 22px/1.2 system-ui,'Segoe UI',Arial,sans-serif}
+header span{font:15px/1.3 system-ui,'Segoe UI',Arial,sans-serif;color:#D9D3C2;margin-left:auto;text-align:right}
+.bar{height:10px;background:#E6DFCC}.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
+main{padding:26px 0 60px}
+.stepno{font:600 15px/1 system-ui,'Segoe UI',Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 6px}
+h1{font:700 32px/1.15 system-ui,'Segoe UI',Arial,sans-serif;margin:0 0 10px;text-wrap:balance}
+p.lead{margin:0 0 18px;color:var(--soft);max-width:60ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px;margin:0 0 16px}
+.tip{background:var(--tip);border-left:5px solid var(--accent);padding:14px 16px;margin:0 0 16px;border-radius:0 6px 6px 0;font-size:17.5px}
+.tip b{display:block;font-family:system-ui,'Segoe UI',Arial,sans-serif}
+label{display:block;font:600 17px/1.3 system-ui,'Segoe UI',Arial,sans-serif;margin:0 0 6px}
+.f{margin:0 0 16px}.f small{display:block;color:var(--soft);font-size:16px;margin-top:4px}
+input[type=text],input[type=tel],select,textarea{width:100%;font:19px/1.3 system-ui,'Segoe UI',Arial,sans-serif;padding:12px 12px;border:2px solid #9C947E;border-radius:6px;background:#fff;color:var(--ink);min-height:50px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.item{border:1px solid var(--line);border-radius:6px;padding:14px;margin:0 0 12px;background:#FDFCF8}
+.item .x{float:right;border:0;background:none;color:var(--bad);font:600 16px system-ui,sans-serif;cursor:pointer;padding:6px;min-height:40px}
+.checks label{display:flex;gap:12px;align-items:flex-start;font-weight:400;font-family:Georgia,serif;font-size:18.5px;padding:8px 0;cursor:pointer}
+.checks input{width:26px;height:26px;flex:none;margin-top:2px;accent-color:var(--primary)}
+.btn{font:700 19px/1 system-ui,'Segoe UI',Arial,sans-serif;padding:16px 22px;border-radius:8px;border:2px solid var(--primary);background:#fff;color:var(--primary);cursor:pointer;min-height:56px}
+.btn.go{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.sm{font-size:16.5px;padding:10px 14px;min-height:46px}
+.btn:disabled{opacity:.55;cursor:default}
+.nav{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;margin-top:22px}
+.msg{font:600 17px/1.4 system-ui,sans-serif;min-height:1.4em;margin:14px 0 0}.msg.bad{color:var(--bad)}.msg.ok{color:var(--ok)}
+.sum{margin:0;padding:0;list-style:none}.sum li{padding:9px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap}.sum li b{font-family:system-ui,sans-serif;font-size:17px}
+.files{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.file{position:relative;overflow:hidden;display:inline-flex;align-items:center}.file input{position:absolute;inset:0;opacity:0;cursor:pointer}
+footer{font:15px/1.5 system-ui,sans-serif;color:var(--soft);padding:0 0 40px}
+@media (max-width:560px){body{font-size:18px}h1{font-size:27px}.row{grid-template-columns:1fr}header span{margin-left:0;text-align:left}.nav .btn{flex:1 1 100%}}
+@media print{header,.bar,.nav,footer{display:none}}
+
+#demoBar{background:#3A2A10;color:#FBE9C6;font:600 15px/1.4 system-ui,'Segoe UI',Arial,sans-serif;padding:9px 18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;text-align:center}
+#demoBar button{font:600 14px system-ui,sans-serif;background:none;border:1px solid #FBE9C6;color:#FBE9C6;border-radius:5px;padding:5px 10px;cursor:pointer}
+#demo{background:var(--bg);min-height:100vh}
+body.demo-front>header,body.demo-front>.bar,body.demo-front>main,body.demo-front>footer{display:none}
+#demo .hero{background:var(--primary);color:#F7F2E7;padding:44px 0 40px}
+#demo .hero h1{font-size:40px;margin:0 0 12px;color:#F7F2E7}#demo .hero p{font-size:21px;max-width:38em;margin:0;color:#E2DCCB}
+#demo .hero small{display:block;font:600 15px system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#E9B48F;margin-bottom:10px}
+#demo h2{font:700 26px/1.2 system-ui,'Segoe UI',Arial,sans-serif;margin:34px 0 14px}
+#demo .gets{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;padding:0;list-style:none;margin:0}
+#demo .gets li{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
+#demo .gets b{display:block;font:700 18px system-ui,sans-serif;margin-bottom:4px}
+#demo .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:14px}
+#demo .plan{background:var(--card);border:2px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column}
+#demo .plan.best{border-color:var(--accent)}
+#demo .plan b{font:700 19px/1.25 system-ui,sans-serif}#demo .plan .p{font:700 34px/1.1 system-ui,sans-serif;margin:10px 0 6px}
+#demo .plan span{flex:1;color:var(--soft);font-size:17px;margin-bottom:14px}
+#demo .story{background:var(--tip);border-left:5px solid var(--accent);padding:16px 18px;border-radius:0 6px 6px 0;margin-top:30px}
+#demo .wrap{max-width:980px}
+@media (max-width:560px){#demo .hero h1{font-size:30px}#demo .hero p{font-size:18.5px}}
+</style>
+</head>
+<body>
+
+<div id="demoBar" role="note"><span>Demo. Nothing is charged, nothing is saved or sent, and the PDF is marked DEMO.</span><button type="button" id="demoRestart">Start the demo over</button></div>
+<div id="demo"></div>
+<script>
+(function () {
+  var month = 30 * 86400000;
+  var G = window.__DEMO_GATE = { t: "demo", order: "FP-DEMO01", expires: Date.now() + month, seats: 1, used: 0, prints: 0, shipTo: "", printUrl: "", keepDays: 14,
+    seller: { product: "Family Security Playbook", name: "Jeff Cady Security", phone: "(206) 849-7494", email: "jeff@jcady.org", web: "security.jcady.org", primary: "#1B2A1F", accent: "#CB5A28", logo: "" } };
+  try { sessionStorage.removeItem("diy"); } catch (e) {}
+  var PLANS = [
+    { id: "one", name: "DIY playbook, one person", price: "$39", blurb: "One large-print playbook to download and print at home.", seats: 1, prints: 0 },
+    { id: "print", name: "DIY playbook with printed copy", price: "$65", blurb: "The same playbook, plus a bound copy printed and mailed to you.", seats: 1, prints: 1, best: true },
+    { id: "family", name: "Family pack, three people", price: "$79", blurb: "Playbooks for up to three people, such as both parents and yourself.", seats: 3, prints: 0 },
+    { id: "call", name: "DIY playbook plus a 30-minute review call", price: "$149", blurb: "Build it yourself, then go through it with Jeff on a call.", seats: 1, prints: 0 } ];
+  var el = document.getElementById("demo"), esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  function hideWizard(h) { document.body.classList.toggle("demo-front", h); el.style.display = h ? "" : "none"; }
+  function landing() {
+    hideWizard(true); window.scrollTo(0, 0);
+    el.innerHTML = '<div class="hero"><div class="wrap"><small>Family Security Playbook</small><h1>One printed guide your parents can follow when a scam call comes.</h1><p>Answer plain questions for about 20 minutes. Print a large-type playbook with the right phone numbers, what to do if something seems wrong, and how each account is protected.</p></div></div>' +
+      '<div class="wrap"><h2>What is in the playbook</h2><ul class="gets"><li><b>The emergency page</b>Five steps to take, in order, when something seems wrong.</li><li><b>The real phone numbers</b>Banks, cards, the cell phone company, insurance and doctors, copied from their own cards and bills.</li><li><b>How accounts are protected</b>Which accounts have a second login step, and a to-do list for the ones that do not.</li><li><b>A page for the family helper</b>What the person they call first should and should not do.</li></ul>' +
+      '<h2>Choose your playbook</h2><div class="plans">' + PLANS.map(function (p) { return '<div class="plan' + (p.best ? " best" : "") + '"><b>' + esc(p.name) + '</b><div class="p">' + p.price + '</div><span>' + esc(p.blurb) + '</span><button type="button" class="btn go" data-plan="' + p.id + '">Buy</button></div>'; }).join("") + '</div>' +
+      '<p class="lead" style="margin-top:14px">One-time payment. What you type stays in your browser and is never sent to us, unless you ask for a printed copy.</p>' +
+      '<div class="story"><b style="font-family:system-ui,sans-serif">Why I built this</b><br>My son was sent a fraudulent check as part of a job onboarding scam. Knowing who to call, and in what order, is what limited the damage. This playbook puts that on paper before it is needed. Jeff Cady, CISSP</div><p style="height:30px"></p></div>';
+  }
+  function welcome(p) {
+    G.seats = p.seats; G.prints = p.prints; G.shipTo = p.prints ? "Margaret Ellison, Goodyear, AZ" : "";
+    var acc = document.getElementById("access"); if (acc) acc.textContent = "Access through " + new Date(G.expires).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) + (G.seats > 1 ? " · " + G.seats + " playbooks" : "");
+    window.scrollTo(0, 0);
+    el.innerHTML = '<div class="hero" style="padding:20px 0"><div class="wrap"><b style="font:700 22px system-ui,sans-serif">Family Security Playbook</b></div></div><div class="wrap" style="max-width:640px;padding-top:30px">' +
+      '<div class="tip"><b>Demo: this is where Stripe checkout would be.</b>The buyer pays ' + p.price + ' by card' + (p.prints ? " and enters a mailing address" : "") + ', then lands on the page below.</div>' +
+      '<h1>Thank you. Your playbook is ready.</h1><p><button type="button" class="btn go" id="demoStart">Start my playbook</button></p>' +
+      '<div class="card"><p style="margin:0">We also emailed you this link so you can come back later. It works until <b>' + new Date(G.expires).toDateString() + '</b> and covers <b>' + G.seats + ' playbook' + (G.seats === 1 ? "" : "s") + '</b>.</p></div><p class="lead">Order ' + G.order + (p.id === "call" ? ". We will email you to schedule your review call." : "") + '</p></div>';
+  }
+  el.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-plan]"); if (b) return welcome(PLANS.filter(function (p) { return p.id === b.dataset.plan; })[0]);
+    if (e.target.id === "demoStart") { hideWizard(false); window.scrollTo(0, 0); var s = document.getElementById("next"); if (s) s.focus(); }
+  });
+  document.getElementById("demoRestart").addEventListener("click", function () { try { sessionStorage.removeItem("diy"); } catch (e) {} location.reload(); });
+
+  /* stand-ins for the gate: the name lock and print order behave as they will when live */
+  var names = [], realFetch = window.fetch ? window.fetch.bind(window) : null;
+  var reply = function (o, status) { return Promise.resolve(new Response(JSON.stringify(o), { status: status || 200, headers: { "content-type": "application/json" } })); };
+  window.fetch = function (u, o) {
+    if (u === "/api/claim") { var h = JSON.parse(o.body).h; if (names.indexOf(h) < 0) { if (names.length >= G.seats) return reply({ ok: false, message: G.seats === 1 ? "This purchase covers one person, and a playbook has already been made under a different name. You can still correct and reprint that one. To make a playbook for someone else, buy another or a family pack." : "This purchase covers " + G.seats + " people and all of them are used." }, 403); names.push(h); } return reply({ ok: true, order: G.order, used: names.length, seats: G.seats }); }
+    if (u === "/api/print") { if (G.prints < 1) return reply({ ok: false, message: "This order does not include a printed copy." }, 402); G.prints -= 1; return reply({ ok: true, id: "PR-DEMO01", left: G.prints }); }
+    return realFetch(u, o);
+  };
+  var DL = null; if (window.claude && typeof window.claude.use === "function") window.claude.use("downloads").then(function (d) { DL = d; }).catch(function () {});
+  window.__demoSave = function (filename, blob) {
+    if (DL) { DL.save({ filename: filename, data: blob }).catch(function () {}); return; }
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = filename; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  };
+  window.addEventListener("load", function () {
+    if (window.Playbook && window.Playbook.build) { var build = window.Playbook.build; window.Playbook.build = function (J, d) { var doc = build(J, d), n = doc.getNumberOfPages(), W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(); for (var i = 1; i <= n; i++) { doc.setPage(i); doc.setFont("helvetica", "bold"); doc.setFontSize(110); doc.setTextColor(225, 215, 200); doc.text("DEMO", W / 2, H / 2 + 40, { align: "center", angle: 35 }); } return doc; }; }
+  });
+  landing();
+})();
+</script>
+<header><div class="wrap"><span id="logo"></span><b id="brand">Family Security Playbook</b><span id="access"></span></div></header>
+<div class="bar" aria-hidden="true"><i id="prog"></i></div>
+<main><div class="wrap">
+  <p class="stepno" id="stepno"></p>
+  <h1 id="title" tabindex="-1"></h1>
+  <p class="lead" id="lead"></p>
+  <div id="body"></div>
+  <p class="msg" id="msg" role="status" aria-live="polite"></p>
+  <div class="nav"><button type="button" class="btn" id="back">Back</button><button type="button" class="btn go" id="next">Next</button></div>
+</div></main>
+<footer><div class="wrap">What you type stays in this browser. It is not sent to us or anyone else, unless you choose to have a copy printed and mailed. Never type passwords, PINs or full account numbers here.<br><span id="foot"></span></div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>(function (root) {
+  const D = {
+    me: { name: "Jeff Cady, CISSP", first: "Jeff", brand: "Jeff Cady Security", company: "JCady LLC", phone: "(206) 849-7494", email: "jeff@jcady.org", web: "security.jcady.org", hours: "Monday to Friday, 9 a.m. to 5 p.m. Arizona time" },
+    bankNames: ["Chase", "Bank of America", "Wells Fargo", "Desert Financial Credit Union", "OneAZ Credit Union", "Arizona Financial Credit Union", "U.S. Bank", "Capital One", "Citi", "American Express", "Discover", "USAA", "Navy Federal Credit Union", "Charles Schwab", "Fidelity", "Vanguard"],
+    accountNames: ["Email", "Bank website", "Apple ID", "Google account", "Microsoft account", "Amazon", "Facebook", "Medicare (Medicare.gov)", "Social Security (ssa.gov)", "Mobile phone carrier"],
+    stepOptions: ["Text message code", "Authenticator app code", "Approve on your phone", "Security key", "Email code", "Not available for this account", "Not turned on yet"],
+    fixes: [
+      "Removed harmful software from the computer",
+      "Erased the computer and reinstalled it cleanly",
+      "Removed the remote-access program the scammer installed",
+      "Changed the email password and signed out every other device",
+      "Removed mail forwarding rules the scammer added",
+      "Turned on a second login step for email",
+      "Turned on a second login step for bank and card accounts",
+      "Set up a password manager and replaced reused passwords",
+      "Reported the fraud to the bank's fraud department",
+      "Disputed the unauthorized charges or transfers",
+      "Froze credit at Equifax, Experian and TransUnion",
+      "Filed a report with the Federal Trade Commission",
+      "Filed a report with the FBI's Internet Crime Complaint Center",
+      "Turned on automatic updates",
+      "Set up a backup",
+      "Added a trusted contact at the bank",
+    ],
+    /* The service catalog. A licensee edits these to match what they sell. modes: which starting point offers the service ("recovery" = after an incident, "prepared" = before). Leave modes out to offer it in both. */
+    services: [
+      { id: "triage", modes: ["recovery"], name: "Incident triage and device recovery", price: "$700", timeline: "Usually 1 to 2 weeks", payment: "Payment is due before work starts.",
+        includes: ["A first conversation by phone or video", "A careful look at what happened", "Device cleanup: removing harmful and suspicious software", "New passwords and a second login step on your key accounts", "One call to brief your family, if you would like", "30 days of follow-up by phone or email"],
+        excludes: ["Recovering money. Your bank decides that; I help you make the claim.", "Repairing broken hardware or buying new equipment", "Accounts and devices that belong to other people"] },
+      { id: "full", modes: ["recovery"], name: "Full account recovery and security review", price: "$1,600", timeline: "Usually 2 to 3 weeks", payment: "Payment is due before work starts.",
+        includes: ["Everything in incident triage and device recovery", "A full check and lock-down of your email account", "Help with your bank: we prepare together, and I sit with you on the call to the fraud department", "A review of your social media and other online accounts", "A written record of what happened, for fraud claims and bank disputes", "Credit monitoring or a credit freeze, if your identity was stolen", "Your personal security playbook, printed in large type"],
+        excludes: ["Recovering money. Your bank decides that; I help you make the claim.", "Legal advice or representing you with your bank", "Repairing broken hardware or buying new equipment"] },
+      { id: "annual", modes: ["recovery", "prepared"], name: "Annual protection plan", price: "$2,250 a year", timeline: "One year from the date of this agreement", payment: "Payment is due at the start of each year. I will remind you 30 days before it renews, and you can cancel any time before then.",
+        includes: ["A visit to your home to check your devices and home network", "Devices and accounts set up securely", "Your personal security playbook, updated and reprinted at least once a year", "A 15-minute check-in call every month", "Priority help if something new happens", "A training call for a family member on how to help you from a distance"],
+        excludes: ["Recovering money after a fraud. Your bank decides that; I help you make the claim.", "Repairing broken hardware or buying new equipment", "Monitoring your accounts or devices around the clock"] },
+      { id: "playbook", modes: ["prepared"], name: "Security playbook, before anything happens", price: "$495", timeline: "Usually 1 to 2 sessions", payment: "Payment is due before work starts.",
+        includes: ["A session to list your important accounts, devices and phone numbers", "A second login step turned on for your key accounts", "A password manager set up, with a lesson on using it", "Your personal security playbook, printed in large type", "A copy for your family helper"],
+        excludes: ["Cleaning up after an incident. If we find one, I will tell you and we can agree what to do.", "Repairing broken hardware or buying new equipment"] },
+      { id: "care", modes: ["prepared"], name: "Playbook care", price: "$480 a year", timeline: "One year from the date of this agreement", payment: "Payment is due at the start of each year. I will remind you 30 days before it renews, and you can cancel any time before then.",
+        includes: ["A 30-minute check-in call every three months", "Your personal security playbook updated and reprinted once a year", "An \"is this real?\" line: call or email me about a suspicious message and hear back within one business day, up to 30 minutes of my time a month", "A lower price on recovery work if something happens"],
+        excludes: ["Cleaning up after an incident. That is separate work at the lower member price.", "Monitoring your accounts or devices around the clock", "Repairing broken hardware or buying new equipment"] },
+    ],
+    /* General customer-care lines. Confirm against the client's own bill before printing. 611 from the handset reaches the carrier on every major network. */
+    carriers: { "Verizon": "1-800-922-0204", "AT&T": "1-800-331-0500", "T-Mobile": "1-800-937-8997", "Consumer Cellular": "1-888-345-5509", "Cricket Wireless": "1-800-274-2538", "Metro by T-Mobile": "1-888-863-8768", "Boost Mobile": "1-833-502-6678", "Mint Mobile": "1-800-683-7392", "Straight Talk": "1-800-327-2077", "TracFone": "1-800-327-2077", "Total Wireless": "1-866-663-3633", "Spectrum Mobile": "1-833-224-6603", "UScellular": "1-888-944-9400", "US Mobile": "1-878-205-0088", "AT&T Prepaid": "1-800-901-9878", "Verizon Prepaid": "1-888-294-6804", "T-Mobile Prepaid": "1-877-778-2106", "Xfinity Mobile": "", "Lively (Jitterbug)": "", "Google Fi": "", "Visible": "" },
+    carriersChecked: "October 2026",
+    contactTypes: ["Health insurance", "Medicare plan", "Home or auto insurance", "Life insurance", "Hospital", "Doctor", "Pharmacy", "Internet provider", "Cable or TV provider", "Home phone", "Electric or gas company", "Financial advisor", "Attorney", "Other"],
+    contactNames: ["Medicare", "UnitedHealthcare", "Humana", "Blue Cross Blue Shield of Arizona", "Aetna", "Cigna", "Banner Health", "HonorHealth", "Dignity Health", "Abrazo Health", "Mayo Clinic", "CVS Pharmacy", "Walgreens", "Cox", "CenturyLink", "Quantum Fiber", "Xfinity", "Spectrum", "DirecTV", "Dish", "State Farm", "Allstate", "USAA", "APS", "SRP", "Southwest Gas"],
+    carrierLocks: ["Number lock is on", "Account PIN is set", "Number lock and account PIN are both set", "Not set up yet"],
+    remoteTools: ["Splashtop SOS", "Zoho Assist", "Quick Assist (built into Windows)", "Apple Screen Sharing"],
+    authApps: ["Microsoft Authenticator", "Google Authenticator", "Duo Mobile"],
+    setups: [
+      "Turned on a second login step for email",
+      "Turned on a second login step for bank and card accounts",
+      "Set up a password manager and replaced reused passwords",
+      "Turned on automatic updates",
+      "Set up a backup",
+      "Added a trusted contact at the bank",
+      "Froze credit at Equifax, Experian and TransUnion",
+      "Agreed a family code word",
+      "Removed programs and browser add-ons that were not needed",
+    ],
+    hotlines: [
+      { name: "Federal Trade Commission", phone: "1-877-382-4357", web: "ReportFraud.ftc.gov", when: "Report any scam" },
+      { name: "Identity theft recovery (FTC)", phone: "1-877-438-4338", web: "IdentityTheft.gov", when: "Someone used your name or Social Security number" },
+      { name: "FBI Internet Crime Complaint Center", phone: "", web: "ic3.gov", when: "Online fraud, especially if money was lost" },
+      { name: "National Elder Fraud Hotline", phone: "1-833-372-8311", web: "", when: "Help for adults 60 and over, U.S. Department of Justice" },
+      { name: "AARP Fraud Watch Helpline", phone: "1-877-908-3360", web: "aarp.org/fraud", when: "Talk to a trained volunteer" },
+      { name: "Equifax", phone: "1-888-298-0045", web: "equifax.com", when: "Freeze or unfreeze your credit" },
+      { name: "Experian", phone: "1-888-397-3742", web: "experian.com", when: "Freeze or unfreeze your credit" },
+      { name: "TransUnion", phone: "1-800-916-8800", web: "transunion.com", when: "Freeze or unfreeze your credit" },
+      { name: "Social Security fraud line", phone: "1-800-269-0271", web: "oig.ssa.gov", when: "Scams using Social Security's name" },
+      { name: "Medicare", phone: "1-800-633-4227", web: "medicare.gov", when: "Medicare card or billing fraud" },
+      { name: "IRS", phone: "1-800-829-1040", web: "irs.gov", when: "Check whether a letter or bill from the IRS is real" },
+      { name: "IRS identity theft line", phone: "1-800-908-4490", web: "irs.gov/identitytheft", when: "Someone filed a tax return in your name" },
+      { name: "Treasury Inspector General (TIGTA)", phone: "1-800-366-4484", web: "tigta.gov", when: "Report someone pretending to be the IRS" },
+      { name: "Arizona Attorney General", phone: "602-542-5763", web: "azag.gov", when: "Consumer fraud complaints in Arizona" },
+      { name: "Arizona Adult Protective Services", phone: "1-877-767-2385", web: "", when: "Someone is exploiting a vulnerable adult" },
+      { name: "Maricopa County Sheriff, non-emergency", phone: "602-876-1011", web: "", when: "File a police report" },
+    ],
+  };
+  if (typeof module !== "undefined" && module.exports) module.exports = D; else root.PlaybookDefaults = D;
+})(typeof window !== "undefined" ? window : globalThis);
+</script>
+<script>/* Personal Security Playbook PDF. Same look as the UERA / Readiness Check reports:
+   dark header band, mono eyebrow, Helvetica body, accent bars, Courier footers. */
+(function (root) {
+  const P = { pine: [27, 42, 31], pine2: [37, 55, 42], accent: [203, 90, 40], cream: [247, 242, 231], tan: [200, 177, 144],
+    ink: [35, 41, 34], soft: [86, 95, 78], line: [201, 192, 167], wash: [244, 240, 228], white: [255, 255, 255], ok: [63, 107, 67] };
+  const clean = s => String(s == null ? "" : s).replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/…/g, "...")
+    .replace(/[–—]/g, "-").replace(/ /g, " ").replace(/[^\x09\x0A\x0D\x20-\x7E¡-ÿ]/g, "").trim();
+
+  const PM = {
+    "Apple Passwords": {
+      where: "Built into your iPhone, iPad and Mac.",
+      steps: [
+        "Open the Passwords app (a key icon). On an older iPhone or iPad, open Settings and tap Passwords.",
+        "Unlock it with your face, fingerprint or the passcode you use to unlock the device.",
+        "To sign in to a website: tap the username box. Your saved login appears just above the keyboard. Tap it and the name and password fill in.",
+        "To make a new account: when the site asks for a password, choose the strong password your device offers. It is saved for you.",
+        "To look something up: open Passwords and type the website's name in the search box.",
+      ],
+      key: "Your device passcode protects every saved password. Keep it private and do not reuse it anywhere else.",
+    },
+    "Bitwarden": {
+      where: "An app on your phone and a small shield button in your web browser.",
+      steps: [
+        "Open Bitwarden (a blue shield icon).",
+        "Unlock it with your master password, or with your fingerprint or face if we turned that on.",
+        "To sign in to a website: click the shield button at the top of your browser, then click the login it shows. The name and password fill in.",
+        "To save a new account: click New, choose Login, and use the Generator to create the password. Click Save.",
+        "To look something up: open Bitwarden and type the website's name in the search box.",
+      ],
+      key: "Your master password is the one password to remember. Nobody can reset it for you, not even Bitwarden.",
+    },
+    "1Password": {
+      where: "An app on your phone and computer, and a button in your web browser.",
+      steps: [
+        "Open 1Password (a blue circle with a keyhole).",
+        "Unlock it with your account password, or with your fingerprint or face if we turned that on.",
+        "To sign in to a website: click in the username box and choose the login 1Password offers. The name and password fill in.",
+        "To save a new account: let 1Password suggest a password when you sign up, then choose Save.",
+        "To look something up: open 1Password and type the website's name in the search box.",
+      ],
+      key: "Your account password and your printed Emergency Kit are the only ways in. Nobody can reset them for you.",
+    },
+    "Google Password Manager": {
+      where: "Built into the Chrome browser and Android phones.",
+      steps: [
+        "Open Chrome. Click the three dots at the top right, then Passwords and autofill, then Google Password Manager.",
+        "If asked, confirm it's you with your computer or phone's unlock code.",
+        "To sign in to a website: click the username box. Chrome shows your saved login. Click it and the name and password fill in.",
+        "To make a new account: click the password box and choose Suggest strong password. Chrome saves it for you.",
+        "To look something up: open Google Password Manager and type the website's name in the search box.",
+      ],
+      key: "Your Google account protects every saved password. Its password and second login step must stay private.",
+    },
+  };
+
+  const MFA = {
+    "Text message code": { title: () => "A code sent by text message", steps: () => [
+      "Sign in with your username and password as usual.",
+      "Within a minute, a text message arrives with a short code, usually six numbers.",
+      "Type that code into the website or app you just opened.",
+      "If a code arrives when you were not signing in, do nothing with it and tell your family helper.",
+    ] },
+    "Authenticator app code": { title: m => "A code from " + (clean(m.app) || "your authenticator app"), steps: m => [
+      "Sign in with your username and password as usual.",
+      "Open " + (clean(m.app) || "the authenticator app") + " on your phone.",
+      "Find the name of the website in the list. Next to it is a six-digit code that changes every 30 seconds.",
+      "Type the code into the website before it changes. If it changes, just use the new one.",
+    ] },
+    "Approve on your phone": { title: () => "An approval request on your phone", steps: () => [
+      "Sign in with your username and password as usual.",
+      "Your phone shows a message asking whether you are trying to sign in.",
+      "Tap Yes only if you are signing in right now.",
+      "If the message appears when you are not signing in, tap No. Someone may have your password. Change it, then tell your family helper.",
+    ] },
+    "Security key": { title: () => "A security key", steps: () => [
+      "Sign in with your username and password as usual.",
+      "When the website asks for your security key, plug it in or hold it against your phone.",
+      "Touch the gold or silver button on the key.",
+      "Keep the spare key in a safe place at home, not with the first one.",
+    ] },
+    "Email code": { title: () => "A code sent by email", steps: () => [
+      "Sign in with your username and password as usual.",
+      "Open your email in a new window and find the message with the code.",
+      "Type the code into the website you were signing in to.",
+      "This only protects you if your email itself is secure, which is why your email has its own second step.",
+    ] },
+  };
+
+  const RED_FLAGS = [
+    "Someone contacts you first, by phone, text, email or pop-up, about a problem you did not know you had.",
+    "They say you must act right now, or something bad will happen.",
+    "They ask you to keep it secret from your bank, your family or anyone else.",
+    "They want payment by gift card, wire transfer, cryptocurrency, cash in the mail or a payment app.",
+    "They ask for a code that was just sent to your phone or email.",
+    "They ask to connect to your computer or phone, or to install a program so they can 'help'.",
+    "They say they are from your bank, Microsoft, Apple, Medicare, Social Security, the IRS or the police.",
+    "A message or pop-up tells you to call a phone number it gives you.",
+  ];
+  const RULES = [
+    "Stop. Real problems can wait ten minutes. Scams cannot.",
+    "Hang up or close the message. You are not being rude.",
+    "Look up the phone number yourself, on the back of your card or on a statement, and call that.",
+    "Never read a login code to anyone. Type it only into a website or app you opened yourself.",
+    "When in doubt, call your family helper before you do anything else.",
+  ];
+  const MONTHLY = [
+    "Read your bank and card statements. Call the bank about any charge you do not recognize.",
+    "Install updates when your phone or computer offers them, then restart the device.",
+    "Check that your backup ran this month.",
+    "Delete emails and texts from senders you do not know, without tapping any links.",
+    "Tell your family helper about anything that seemed odd, even if you handled it.",
+  ];
+  const YEARLY = [
+    "Get your free credit reports at AnnualCreditReport.com and look for accounts you did not open.",
+    "Ask your bank to confirm the trusted contact on your accounts.",
+    "Go through this playbook with your family helper and with me, and print the new version.",
+  ];
+  const HELPER = [
+    "Be the first call. If something seems wrong, your relative should be able to reach you without feeling judged.",
+    "Never ask for passwords by phone, text or email. If you need to help with an account, do it together, in person or on a video call.",
+    "Agree on a family code word. Anyone who calls claiming to be family and asking for money must know it.",
+    "Know where this playbook and the password manager's emergency sheet are kept.",
+    "If money has left an account, the bank's fraud line comes first, then the reports listed in this playbook.",
+  ];
+
+  function kit(jsPDF, d) {
+    const doc = new jsPDF({ unit: "pt", format: "letter" });
+    const W = 612, H = 792, M = 54, CW = W - 2 * M, BOTTOM = H - 58;
+    let y = 0;
+    const me = d.me || {};
+    const col = (c, fn = "setTextColor") => doc[fn](c[0], c[1], c[2]);
+    const font = (f, s, size) => { doc.setFont(f, s); doc.setFontSize(size); };
+    const newPage = () => { doc.addPage(); y = M + 6; };
+    const need = h => { if (y + h > BOTTOM) newPage(); };
+    const wrap = (t, w) => doc.splitTextToSize(clean(t), w);
+
+    function para(t, o = {}) {
+      const size = o.size || 13, lh = o.lh || size * 1.42, x = o.x || M, w = o.w || (CW - (x - M));
+      font(o.f || "helvetica", o.s || "normal", size); col(o.c || P.ink);
+      const lines = wrap(t, w);
+      lines.forEach(l => { need(lh); font(o.f || "helvetica", o.s || "normal", size); col(o.c || P.ink); doc.text(l, x, y + size * 0.82); y += lh; });
+      y += o.after == null ? 6 : o.after;
+    }
+    function heading(t, sub, keep) {
+      need(keep || (sub ? 84 : 60)); y += 12;
+      font("helvetica", "bold", 18); col(P.pine); wrap(t, CW).forEach(l => { doc.text(l, M, y + 14); y += 22; }); y += 2;
+      if (sub) { para(sub, { size: 11.5, c: P.soft, after: 8 }); } else y += 4;
+    }
+    function sub(t) {
+      need(40); y += 4;
+      col(P.accent, "setFillColor"); doc.rect(M, y, 3, 15, "F");
+      font("helvetica", "bold", 13.5); col(P.ink); doc.text(clean(t), M + 10, y + 12); y += 24;
+    }
+    function steps(items, o = {}) {
+      items.forEach((t, i) => {
+        const size = o.size || 13.5, lh = size * 1.42, x = M + 30; font("helvetica", "normal", size); const lines = wrap(t, CW - 34);
+        need(lines.length * lh + 6);
+        font("helvetica", "bold", size + 3); col(P.accent); doc.text(String(i + 1), M + 6, y + size * 0.88);
+        font("helvetica", "normal", size); col(P.ink);
+        lines.forEach(l => { doc.text(l, x, y + size * 0.82); y += lh; });
+        y += 7;
+      });
+      y += 4;
+    }
+    function checks(items, o = {}) {
+      items.forEach(t => {
+        const size = o.size || 13, lh = size * 1.42, x = M + 26; font("helvetica", "normal", size); const lines = wrap(t, CW - 30);
+        need(lines.length * lh + 5);
+        if (o.dot) { col(P.accent, "setFillColor"); doc.rect(M + 7, y + 5.5, 5.5, 5.5, "F"); font("helvetica", "normal", size); col(P.ink); lines.forEach(l => { doc.text(l, x, y + size * 0.82); y += lh; }); y += 4; return; }
+        doc.setLineWidth(1); col(o.done ? P.ok : P.ink, "setDrawColor");
+        if (o.done) { col(P.ok, "setFillColor"); doc.rect(M + 4, y + 2, 12, 12, "F"); col(P.white, "setDrawColor"); doc.setLineWidth(1.6); doc.line(M + 6.6, y + 8.4, M + 9.2, y + 11.2); doc.line(M + 9.2, y + 11.2, M + 13.6, y + 5); }
+        else doc.rect(M + 4, y + 2, 12, 12, "S");
+        font("helvetica", "normal", size); col(P.ink);
+        lines.forEach(l => { doc.text(l, x, y + size * 0.82); y += lh; });
+        y += 4;
+      });
+      y += 4;
+    }
+    /* rows: array of arrays; widths: fractions of CW; first row of head */
+    function table(head, rows, widths, o = {}) {
+      const xs = []; let acc = M; widths.forEach(w => { xs.push(acc); acc += w * CW; });
+      const size = o.size || 11.5, lh = size * 1.34, pad = 7;
+      const drawHead = () => {
+        col(P.pine, "setFillColor"); doc.rect(M, y, CW, 20, "F");
+        font("courier", "bold", 9); col(P.cream);
+        head.forEach((h, i) => doc.text(clean(h).toUpperCase(), xs[i] + pad, y + 13.5));
+        y += 20;
+      };
+      need(20 + lh + 2 * pad); if (!o.noHead) drawHead(); else { col(P.pine, "setFillColor"); doc.rect(M, y, CW, 2, "F"); y += 2; }
+      rows.forEach((r, ri) => {
+        const cells = r.map((c, i) => { font("helvetica", (o.boldCols || []).includes(i) ? "bold" : "normal", size); return wrap(c || "", widths[i] * CW - 2 * pad - 2); });
+        const h = Math.max(1, ...cells.map(c => c.length)) * lh + 2 * pad - 2;
+        if (y + h > BOTTOM) { newPage(); if (!o.noHead) drawHead(); }
+        if (ri % 2 === 0) { col(P.wash, "setFillColor"); doc.rect(M, y, CW, h, "F"); }
+        cells.forEach((c, i) => {
+          font(o.bold === i || (o.boldCols || []).includes(i) ? "helvetica" : "helvetica", (o.boldCols || []).includes(i) ? "bold" : "normal", size); col(P.ink);
+          c.forEach((l, li) => doc.text(l, xs[i] + pad, y + pad + size * 0.8 + li * lh));
+        });
+        col(P.line, "setDrawColor"); doc.setLineWidth(0.5); doc.line(M, y + h, M + CW, y + h);
+        y += h;
+      });
+      y += 12;
+    }
+    /* height a table will need, so a heading and its table can be kept on one page */
+    function tableHeight(rows, widths, o = {}) {
+      const size = o.size || 11.5, lh = size * 1.34, pad = 7;
+      return (o.noHead ? 2 : 20) + 12 + rows.reduce((sum, r) => sum + Math.max(1, ...r.map((c, i) => { font("helvetica", (o.boldCols || []).includes(i) ? "bold" : "normal", size); return wrap(c || "", widths[i] * CW - 2 * pad - 2).length; })) * lh + 2 * pad - 2, 0);
+    }
+    function callout(title, lines) {
+      const size = 13, lh = size * 1.42, w = CW - 32;
+      font("helvetica", "normal", size); const body = lines.flatMap(l => wrap(l, w));
+      const h = 34 + body.length * lh + 14;
+      need(h + 6);
+      col(P.pine, "setFillColor"); doc.rect(M, y, CW, h, "F");
+      col(P.accent, "setFillColor"); doc.rect(M, y, 4, h, "F");
+      font("helvetica", "bold", 14.5); col(P.cream); doc.text(clean(title), M + 16, y + 24);
+      font("helvetica", "normal", size); col([230, 223, 205]);
+      body.forEach((l, i) => doc.text(l, M + 16, y + 34 + size + i * lh));
+      y += h + 14;
+    }
+
+    /* part divider: the three-step method (assess, prioritize, adjust) */
+    function part(n, title, sub) {
+      newPage(); y = M - 6;
+      col(P.pine, "setFillColor"); doc.rect(M, y, CW, 58, "F");
+      col(P.accent, "setFillColor"); doc.rect(M, y, 5, 58, "F");
+      font("courier", "bold", 9); col(P.tan); doc.text("STEP " + n + " OF 3", M + 18, y + 20);
+      font("helvetica", "bold", 19); col(P.cream); doc.text(clean(title), M + 18, y + 42);
+      font("helvetica", "normal", 11); col([230, 223, 205]); doc.text(clean(sub), W - M - 14, y + 42, { align: "right" });
+      y += 70;
+    }
+    function headerBand(eyebrow, title, lines) {
+      col(P.pine, "setFillColor"); doc.rect(0, 0, W, 138, "F");
+      font("courier", "bold", 8.5); col(P.tan); doc.text(clean(eyebrow).toUpperCase(), M, 40);
+      font("helvetica", "bold", 24); col(P.cream); doc.text(wrap(title, 320)[0], M, 74);
+      font("courier", "normal", 9); col(P.tan);
+      lines.forEach((l, i) => doc.text(clean(l), M, 96 + i * 14));
+      font("courier", "bold", 8.5); col(P.tan); doc.text(clean(me.first ? "QUESTIONS? CALL " + me.first : "").toUpperCase(), W - M, 54, { align: "right" });
+      font("helvetica", "bold", 20); col(P.accent); doc.text(clean(me.phone || ""), W - M, 80, { align: "right" });
+      font("courier", "normal", 9); col(P.tan); doc.text(clean(me.email || ""), W - M, 96, { align: "right" });
+      y = 158;
+    }
+    function footers(label) {
+      const n = doc.getNumberOfPages();
+      for (let i = 1; i <= n; i++) {
+        doc.setPage(i);
+        col(P.line, "setDrawColor"); doc.setLineWidth(0.5); doc.line(M, H - 44, W - M, H - 44);
+        font("courier", "normal", 7.5); col(P.soft);
+        doc.text(clean(label), M, H - 30);
+        doc.text("Page " + i + " of " + n, W - M, H - 30, { align: "right" });
+      }
+    }
+    function signLine(label, name) {
+      need(64); y += 30;
+      col(P.ink, "setDrawColor"); doc.setLineWidth(0.8); doc.line(M, y, M + CW * 0.6, y); doc.line(M + CW * 0.66, y, M + CW, y);
+      font("helvetica", "normal", 10.5); col(P.soft);
+      doc.text(clean(label + (name ? ": " + name : "")), M, y + 14); doc.text("Date", M + CW * 0.66, y + 14);
+      y += 24;
+    }
+    return { doc, P, M, CW, W, H, me, col, font, need, para, heading, sub, steps, checks, table, tableHeight, callout, part, headerBand, footers, signLine, newPage, wrap,
+      get y() { return y; }, set y(v) { y = v; } };
+  }
+
+  /* ================= the playbook ================= */
+  function build(jsPDF, d) {
+    const k = kit(jsPDF, d), { doc, P, M, me } = k;
+    const { para, heading, sub, steps, checks, table, callout, part } = k;
+    const c = d.client || {}, inc = d.incident || {}, I = d.include || {};
+    const who = clean(c.name) || "Your household";
+    const brand = clean(me.brand || me.company || "");
+    const prepared = d.mode === "prepared";
+    const helper = clean(c.helperName);
+
+    k.headerBand("Personal security playbook  ·  " + brand, who, [
+      "Prepared " + (c.date || ""),
+      (c.version ? "Version " + c.version + "  ·  " : "") + (c.reviewBy ? "Review by " + c.reviewBy : ""),
+      "Keep this by your computer. Never write passwords in it.",
+    ].filter(Boolean));
+
+    /* ---------- first page: the emergency card ---------- */
+    heading("If something seems wrong", "Do these in order. You will not get in trouble for stopping to check.");
+    steps([
+      "Stop. Do not click, do not call the number on the screen, and do not send money or codes.",
+      "If someone is on the phone with you, hang up. If a warning fills the screen, turn the device off.",
+      "If money may be involved, call your bank using the number below or the one on the back of your card.",
+      "Call your family helper" + (helper ? ", " + helper + (clean(c.helperPhone) ? ", at " + c.helperPhone : "") : "") + ".",
+      "Write down what happened while you remember it: the time, what they said, and any phone number or website.",
+    ]);
+
+    const phones = [];
+    (d.banks || []).filter(b => clean(b.name)).forEach(b => phones.push([b.name, b.phone || "Use the number on the back of your card", b.note || ""]));
+    const car = d.carrier || {};
+    if (clean(car.name)) phones.push([car.name + " (cell phone company)", clean(car.phone) || "Dial 611 from your cell phone", "Or use the number on your bill"]);
+    (d.contacts || []).filter(x => clean(x.name)).forEach(x => phones.push([x.name + (clean(x.type) && x.type !== "Other" ? " (" + x.type.toLowerCase() + ")" : ""), clean(x.phone) || "Use the number on your bill or card", x.note || ""]));
+    if (helper) phones.push([helper + (c.helperRelation ? " (" + c.helperRelation + ")" : ""), c.helperPhone || "", "Family helper"]);
+    phones.push(["Emergency", "911", "If you are in danger or being threatened"]);
+    heading("Your important phone numbers", "Use these numbers, not ones given to you in a call, text, email or pop-up.", Math.min(600, k.tableHeight(phones, [0.38, 0.27, 0.35], { boldCols: [1] }) + 70));
+    table(["Who", "Phone number", "Notes"], phones, [0.38, 0.27, 0.35], { boldCols: [1] });
+
+    /* ================= STEP 1: ASSESS ================= */
+    const accts = (d.accounts || []).filter(a => clean(a.name));
+    const devs = (d.devices || []).filter(x => clean(x.name));
+    part(1, "Assess", "Where you stand today");
+    const tl = (inc.timeline || []).filter(r => clean(r.what));
+    if (!prepared && I.incident && (clean(inc.summary) || tl.length)) {
+      heading("What happened");
+      if (clean(inc.summary)) para(inc.summary, { after: 10 });
+      if (tl.length) {
+        sub("Step by step");
+        table(["", "When", "What happened"], tl.map((r, i) => [String(i + 1), r.when || "", r.what]), [0.07, 0.25, 0.68], { boldCols: [0, 1] });
+        para("Keep this timeline. Your bank, the police or the FTC may ask for it.", { size: 11.5, c: P.soft, after: 8 });
+      }
+    }
+    if (accts.length) {
+      heading("Your accounts and how they are protected", "A second login step means a thief needs more than your password. This list has no passwords in it, on purpose.");
+      table(["Account", "Second login step", "Notes"], accts.map(a => [a.name, a.step || "", a.note || ""]), [0.34, 0.3, 0.36], { boldCols: [0] });
+    }
+    if (I.devices && devs.length) {
+      heading("Your devices", "How each one is set up today.", 130);
+      table(["Device", "Unlocks with", "Updates", "Backup"], devs.map(x => [x.name, x.lock || "", x.updates || "", x.backup || ""]), [0.3, 0.22, 0.2, 0.28], { boldCols: [0] });
+    }
+
+    if (I.carrier && clean(car.name)) {
+      const digits = String(car.account || "").replace(/\s/g, "");
+      const acct = !digits ? "" : car.fullAccount ? digits : "Ending in " + digits.slice(-4);
+      heading("Your cell phone account", "Your phone number is a key to your accounts, because login codes are sent to it. Thieves try to move phone numbers to their own phones.", 230);
+      table(["", ""], [["Cell phone company", car.name], ["Your cell phone number", car.number || ""], ["Account number", acct], ["To reach them", clean(car.phone) ? car.phone + ", or dial 611 from your cell phone" : "Dial 611 from your cell phone, or use the number on your bill"], ["Protection on your number", car.lock || ""], ["Your plan", car.plan || ""]].filter(r => clean(r[1])), [0.36, 0.64], { boldCols: [0], noHead: true });
+      checks([
+        "Your phone company will never call or text you to ask for your PIN or a code. If someone does, hang up.",
+        "If your phone shows \"No service\" or \"SOS only\" for more than an hour at home, call the phone company from another phone, then tell your family helper.",
+        "Before you change your plan, add a line, or trade in a phone, you can say \"I need to think about it.\" Then call your family helper.",
+        "Read your phone bill each month. Call about any new line, device or charge you did not ask for.",
+      ]);
+    }
+
+    /* ================= STEP 2: PRIORITIZE ================= */
+    part(2, "Prioritize", prepared ? "What you have set up, and how to use it" : "What we fixed, and how to use it");
+    if (I.incident && ((inc.fixes || []).length || (inc.todo || []).length)) {
+      heading(prepared ? "What you have set up" : "What we fixed");
+      if ((inc.fixes || []).length) { sub("Done"); checks(inc.fixes, { done: true }); }
+      if ((inc.todo || []).length) { sub("Still to do, most important first"); checks(inc.todo); }
+    }
+
+    const pm = d.pm || {}, pmDef = PM[pm.name];
+    if (I.pm && pmDef) {
+      heading("Your password manager: " + pm.name, pmDef.where + " It remembers a different strong password for every account, so you do not have to.");
+      steps(pmDef.steps);
+      para(pmDef.key, { s: "bold", after: 8 });
+      if (clean(pm.kit)) para("Your emergency sheet is kept: " + pm.kit, { after: 8 });
+      para("If the password manager ever offers to fill in a password and then does not, stop. You may be on a fake copy of the website. Close it and call your family helper.", { c: P.soft, size: 11.5, after: 8 });
+    }
+
+    const mfa = d.mfa || {};
+    const used = [...new Set(accts.map(a => a.step))].filter(s => MFA[s]);
+    if (I.mfa && used.length) {
+      heading("Your second login step", "After your password, the website asks for one more thing that only you have. Here is how each kind works.");
+      used.forEach(s => {
+        sub(MFA[s].title(mfa));
+        steps(MFA[s].steps(mfa));
+      });
+      callout("About login codes and approvals", [
+        "A code or an approval request is a second key to your account.",
+        "Type a code only into a website or app that you opened yourself.",
+        "Never read a code to anyone on the phone. Your bank will not ask for it, and neither will I.",
+        "If your phone asks you to approve a sign-in you did not start, tap No and tell your family helper.",
+      ]);
+      if (clean(mfa.backup)) para("If you lose your phone: your backup codes are kept " + mfa.backup + ". Ask your family helper to sit with you when you use them.", { after: 8 });
+      else para("If you lose your phone, call your family helper before you try to sign in anywhere.", { after: 8 });
+    }
+
+    if (I.redflags) {
+      heading("How to spot a scam", "One of these is a warning. Two or more is almost certainly a scam.");
+      checks(RED_FLAGS);
+      sub("What to do every time");
+      steps(RULES);
+      if (d.codeWord) para("Your family has a code word. It is not written here. Anyone who calls saying they are family and need money must say it. If they cannot, hang up.", { s: "bold", after: 8 });
+    }
+
+    const rem = d.remote || {};
+    if (I.remote) {
+      heading("How I help you from a distance", "Sometimes I need to see your screen to help. These rules never change.");
+      steps([
+        "You call me, or we set a time. I do not connect without talking to you first.",
+        clean(rem.tool) ? "The only program I use is " + rem.tool + ". If anyone asks you to install a different one, it is not me." : "I will tell you the name of the one program I use. If anyone asks you to install a different one, it is not me.",
+        "You start the connection yourself and read me the code on your screen.",
+        "You can see everything I do. You can end the connection at any time by closing the window.",
+        rem.stays ? "The program stays on your device so I can help you quickly. It cannot connect unless you approve it." : "When we finish, I end the connection and remove the program.",
+      ]);
+      para("Banks, Microsoft, Apple, Medicare and the government never ask to connect to your computer.", { s: "bold", after: 8 });
+    }
+
+    /* ================= STEP 3: ADJUST ================= */
+    part(3, "Adjust", "Keeping it current");
+    if (I.routine) {
+      heading("Your ten-minute monthly check", "Pick a day, such as the first of the month, and tick these off.");
+      checks(MONTHLY);
+      sub("Once a year");
+      checks(YEARLY);
+    }
+    if (clean(c.reviewBy)) {
+      callout("This playbook has a review date", [
+        "Phone numbers, websites and scams change. Review this playbook by " + c.reviewBy + ".",
+        "Before then, go through it with your family helper and print a new version.",
+        "Also update this playbook if you get a new phone or computer, change banks, or move.",
+      ]);
+    }
+    const hot = (d.hotlines || []).filter(h => clean(h.name));
+    if (I.report && hot.length) {
+      heading("Where to report fraud and get help", "Call your bank first if money is involved. A report also strengthens a bank dispute.", 140);
+      table(["Who", "Phone", "Website", "Use it for"], hot.map(h => [h.name, h.phone || "", h.web || "", h.when || ""]), [0.29, 0.2, 0.23, 0.28], { size: 10, boldCols: [1] });
+      if (clean(d.hotlinesChecked)) para("Phone numbers last checked " + d.hotlinesChecked + ".", { size: 9, c: P.soft, f: "courier" });
+    }
+    if (I.family) {
+      heading("For your family helper", helper ? helper + ", this page is for you." : "Share this page with the person you trust to help.");
+      checks(HELPER);
+    }
+
+    callout("Rules that never change", [
+      "Nobody honest asks for your passwords or for the codes sent to your phone.",
+      "Nobody honest asks to be paid in gift cards, wire transfers or cryptocurrency.",
+      "If a caller says they are from your bank, a company or the government, hang up and dial the number in this playbook yourself.",
+    ]);
+    const s = d.seller || {};
+    if (clean(s.name)) {
+      k.need(64);
+      k.font("helvetica", "bold", 13); k.col(P.ink); doc.text(clean("Want someone to check this with you?  " + s.name), M, k.y + 10); k.y += 20;
+      k.font("courier", "normal", 10); k.col(P.soft); doc.text(clean([s.phone, s.email, s.web].filter(Boolean).join("   ·   ")), M, k.y + 8); k.y += 16;
+    }
+
+    k.footers("Personal Security Playbook  ·  " + who + "  ·  " + brand + (d.orderRef ? "  ·  " + d.orderRef : ""));
+    return doc;
+  }
+
+  /* ================= the service agreement (plain-language statement of work) ================= */
+  function buildAgreement(jsPDF, d) {
+    const k = kit(jsPDF, d), { doc, P, M, me } = k;
+    const { para, heading, steps, checks, callout } = k;
+    const c = d.client || {}, a = d.agreement || {}, rem = d.remote || {};
+    const who = clean(c.name) || "Client";
+    const brand = clean(me.brand || me.company || "");
+    const helper = clean(c.helperName);
+    const lines = t => (Array.isArray(t) ? t : String(t || "").split("\n")).map(s => clean(s)).filter(Boolean);
+
+    k.headerBand("Service agreement  ·  " + brand, who, [
+      "Agreement " + (a.number || "") + "  ·  " + (c.date || ""),
+      "Read this before any work starts. Ask me about anything that is not clear.",
+    ]);
+
+    heading("1. Who this agreement is between");
+    para((me.company || "The company") + (brand && brand !== clean(me.company) ? ", doing business as " + brand + "," : "") + " (\"I\" or \"me\"), represented by " + (me.name || "") + ", and " + who + " (\"you\")." + (helper ? " " + helper + (c.helperRelation ? ", your " + c.helperRelation + "," : "") + " is your family helper and may join any call." : ""));
+
+    heading("2. What I will do", clean(a.service) + (clean(a.timeline) ? "  ·  " + a.timeline : ""));
+    checks(lines(a.includes), { dot: true });
+
+    if (lines(a.excludes).length) { heading("3. What is not included"); checks(lines(a.excludes), { dot: true }); }
+
+    heading("4. How we will work together");
+    steps([
+      "I never ask for your passwords. You type them yourself.",
+      "You can watch everything I do, and you can stop at any time.",
+      "A family member or friend is welcome on every call.",
+      "I explain what I am doing in plain language. If something is not clear, ask me to slow down.",
+    ]);
+
+    heading("5. Your permission for remote access");
+    para("Some of this work is done by connecting to your computer or phone over the internet" + (clean(rem.tool) ? ", using " + rem.tool : "") + ". I connect only while we are talking, and only after you start the connection yourself. " + (rem.stays ? "The program stays on your device so I can help you quickly. It cannot connect unless you approve it each time." : "When we finish, I end the connection and remove the program."));
+    checks(["I give permission for remote access as described above. (Tick and initial: ______ )"]);
+
+    heading("6. Your information stays with you");
+    para("I keep only what I need to do this work: your name, contact details, and my notes. They are stored on my own encrypted computer, not in an online service. I do not sell or share your information. I do not keep your passwords, card numbers or account numbers. Within 30 days after the work ends I delete my notes, keeping only this agreement, your invoice, and what the law requires.");
+
+    heading("7. Price and payment");
+    para("The price for this work is " + (clean(a.price) || "[price]") + ". " + (clean(a.payment) || "Payment is due before work starts."), { s: "bold" });
+    para("You can pay by card through a secure checkout page, or by check. I never accept gift cards, wire transfers, cryptocurrency or payment apps. You will get a receipt.");
+
+    heading("8. What I cannot promise");
+    checks([
+      "I cannot promise that lost money will be returned. That decision belongs to your bank or card company. I will make your claim as strong and well documented as possible.",
+      "No one can promise that you will never be targeted again. I can make it much harder and make sure you know what to do.",
+      "I am not a lawyer or a financial advisor. I will tell you when it makes sense to talk to one.",
+    ], { dot: true });
+    para("If something goes wrong because of a mistake I made, my responsibility is limited to the amount you paid me under this agreement.", { size: 11.5, c: P.soft });
+
+    heading("9. Changing or cancelling");
+    para(clean(a.cancel) || "You can cancel before work starts and receive a full refund. After work starts, you can stop at any time and you pay only for the work already done. If the work turns out to be larger than we agreed, I will tell you and get your approval in writing before doing more.");
+
+    callout("Before you sign", [
+      "Take your time. You can talk it over with family first.",
+      "If anyone pressures you to sign or pay quickly, including me, stop and call someone you trust.",
+    ]);
+
+    k.signLine("Your signature", who);
+    if (helper) k.signLine("Family helper (optional)", helper);
+    k.signLine("For " + (me.company || brand), me.name || "");
+
+    k.footers("Service Agreement " + (a.number || "") + "  ·  " + who + "  ·  " + brand + "  ·  " + (me.phone || ""));
+    return doc;
+  }
+
+  const api = { build, buildAgreement, PM: Object.keys(PM), MFA: Object.keys(MFA) };
+  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.Playbook = api;
+})(typeof window !== "undefined" ? window : globalThis);
+</script>
+<script>
+(function () {
+  "use strict";
+  const GATE = window.__DEMO_GATE;
+  const D = window.PlaybookDefaults, $ = id => document.getElementById(id);
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const seller = GATE.seller || {};
+  const fmt = d => d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  const today = new Date(), nextYear = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
+
+  /* branding from the gate (colors are validated server-side) */
+  if (seller.primary) document.documentElement.style.setProperty("--primary", seller.primary);
+  if (seller.accent) { document.documentElement.style.setProperty("--accent", seller.accent); document.documentElement.style.setProperty("--accent-ink", seller.accent); }
+  if (seller.logo) $("logo").innerHTML = '<img alt="" src="' + esc(seller.logo) + '">';
+  $("brand").textContent = seller.product || "Family Security Playbook";
+  $("access").textContent = GATE.expires ? "Access through " + fmt(new Date(GATE.expires)) + (GATE.seats > 1 ? " · " + GATE.seats + " playbooks" : "") : "";
+  $("foot").textContent = [seller.name, seller.phone, seller.web].filter(Boolean).join(" · ") + (GATE.order ? "  ·  Order " + GATE.order : "");
+  document.title = (seller.product || "Family Security Playbook");
+
+  const fresh = () => ({
+    who: "parent", client: { name: "", helperName: "", helperRelation: "", helperPhone: "" },
+    banks: [{ name: "", phone: "", note: "" }],
+    carrier: { name: "", phone: "", number: "", lock: D.carrierLocks[3] },
+    contacts: [{ type: "Health insurance", name: "", phone: "", note: "" }, { type: "Doctor", name: "", phone: "", note: "" }, { type: "Internet provider", name: "", phone: "", note: "" }],
+    accounts: [{ name: "Email", step: "Not turned on yet", note: "" }, { name: "Bank website", step: "Not turned on yet", note: "" }],
+    mfa: { app: "", backup: "" }, pm: { name: "", kit: "" },
+    devices: [{ name: "", lock: "", updates: "Automatic", backup: "" }],
+    codeWord: false, done: [], todo: "", step: 0,
+  });
+  let S; try { S = JSON.parse(sessionStorage.getItem("diy") || "null"); } catch (e) { S = null; }
+  S = Object.assign(fresh(), S || {});
+  const keep = () => { try { sessionStorage.setItem("diy", JSON.stringify(S)); } catch (e) {} };
+  const them = () => S.who === "me" ? "you" : "they";
+  const their = () => S.who === "me" ? "your" : "their";
+
+  /* ---- small field builders ---- */
+  const field = (path, label, o = {}) => `<div class="f"><label for="${path}">${esc(label)}</label><input type="${o.type || "text"}" id="${path}" data-p="${path}" value="${esc(get(path))}" ${o.list ? `list="${o.list}"` : ""} ${o.ph ? `placeholder="${esc(o.ph)}"` : ""} autocomplete="off">${o.help ? `<small>${esc(o.help)}</small>` : ""}</div>`;
+  const select = (path, label, opts, o = {}) => `<div class="f"><label for="${path}">${esc(label)}</label><select id="${path}" data-p="${path}">${opts.map(x => `<option${x === get(path) ? " selected" : ""}>${esc(x)}</option>`).join("")}</select>${o.help ? `<small>${esc(o.help)}</small>` : ""}</div>`;
+  const tip = (h, t) => `<div class="tip"><b>${esc(h)}</b>${esc(t)}</div>`;
+  const list = (id, arr) => `<datalist id="${id}">${arr.map(x => `<option value="${esc(x)}">`).join("")}</datalist>`;
+  function get(path) { return path.split(".").reduce((o, k) => (o == null ? "" : o[k]), S) ?? ""; }
+  function set(path, v) { const ks = path.split("."); let o = S; ks.slice(0, -1).forEach(k => { o = o[k]; }); o[ks[ks.length - 1]] = v; }
+  const rows = (key, blank, addLabel, inner) => S[key].map((r, i) => `<div class="item"><button type="button" class="x" data-del="${key}.${i}" aria-label="Remove this one">Remove</button>${inner(i)}</div>`).join("") + `<button type="button" class="btn sm" data-add="${key}">${esc(addLabel)}</button>`;
+  const BLANK = { banks: { name: "", phone: "", note: "" }, contacts: { type: "Other", name: "", phone: "", note: "" }, accounts: { name: "", step: "Not turned on yet", note: "" }, devices: { name: "", lock: "", updates: "Automatic", backup: "" } };
+
+  const STEPS = [
+    { title: "Let's build a security playbook", lead: "About 20 minutes. You will finish with a large-print guide to keep by the computer: who to call, what to do if something seems wrong, and how the accounts are protected.",
+      body: () => tip("Before you start", "Have a recent bank statement, the cell phone bill and an insurance card nearby. You will copy phone numbers from them. You will never be asked for a password.") +
+        `<div class="card"><div class="f"><label for="who">Who is this playbook for?</label><select id="who" data-p="who"><option value="parent"${S.who === "parent" ? " selected" : ""}>A parent or relative</option><option value="me"${S.who === "me" ? " selected" : ""}>Myself</option></select></div>
+        <div class="files"><span class="btn sm file">Open saved answers<input type="file" id="openFile" accept=".json,application/json" aria-label="Open saved answers"></span><small style="color:var(--soft)">Started before? Open the file you saved.</small></div></div>` },
+    { title: "Who is it for, and who helps them?", lead: "The family helper is the first person to call when something seems wrong. It works best when it is someone who will answer the phone.",
+      body: () => `<div class="card">${field("client.name", S.who === "me" ? "Your full name" : "Their full name", { help: "This name is printed on the playbook." })}</div>
+        <div class="card">${field("client.helperName", "Family helper's name")}<div class="row">${field("client.helperRelation", "Relationship", { ph: "daughter, son, neighbor…" })}${field("client.helperPhone", "Their phone number", { type: "tel" })}</div></div>`,
+      check: () => S.client.name.trim() ? "" : "Please enter the name for the playbook." },
+    { title: "Banks and cards", lead: "List each bank, credit union and card. In a scare, this is the page that matters most.",
+      body: () => tip("Where to find the number", "Use the phone number on the back of the card or on a statement. Do not search for it online: fake bank numbers are a common trap.") + list("bankList", D.bankNames) +
+        rows("banks", BLANK.banks, "Add another bank or card", i => `${field(`banks.${i}.name`, "Bank or card name", { list: "bankList" })}<div class="row">${field(`banks.${i}.phone`, "Phone number from the card", { type: "tel" })}${field(`banks.${i}.note`, "What is it?", { ph: "Checking, credit card…" })}</div>`) },
+    { title: "Cell phone company", lead: "Thieves sometimes move a phone number to their own phone to catch security codes. A number lock stops that.",
+      body: () => tip("Ask for a number lock", "Call the cell phone company, or dial 611 from the phone, and say: \"Please add a number lock and an account PIN so my number cannot be moved without it.\"") +
+        `<div class="card"><div class="f"><label for="carrier.name">Cell phone company</label><select id="carrier.name" data-p="carrier.name"><option value="">Choose…</option>${Object.keys(D.carriers).map(x => `<option${x === S.carrier.name ? " selected" : ""}>${esc(x)}</option>`).join("")}</select></div>
+        <div class="row">${field("carrier.phone", "Customer service number", { type: "tel", help: "Check it against the bill. 611 from the cell phone also works." })}${field("carrier.number", "The cell phone number", { type: "tel" })}</div>${select("carrier.lock", "Number lock and account PIN", D.carrierLocks)}</div>` },
+    { title: "Other important numbers", lead: "Insurance, doctor, pharmacy, internet and TV. Scammers often pretend to be one of these.",
+      body: () => list("contactList", D.contactNames) + rows("contacts", BLANK.contacts, "Add another", i => `<div class="row">${select(`contacts.${i}.type`, "Type", D.contactTypes)}${field(`contacts.${i}.name`, "Name", { list: "contactList" })}</div><div class="row">${field(`contacts.${i}.phone`, "Phone number from the card or bill", { type: "tel" })}${field(`contacts.${i}.note`, "Note", { ph: "Optional" })}</div>`) },
+    { title: "Accounts and the second login step", lead: "A second step, such as a code sent to the phone, keeps a thief out even when they have the password. Email and banking matter most.",
+      body: () => tip("How to turn it on", "Sign in to the account, open Settings, then Security, and look for \"two-step verification\" or \"two-factor\". Choose \"Not turned on yet\" below for any you still need to do; the playbook will list them as to-dos.") + list("acctList", D.accountNames) +
+        rows("accounts", BLANK.accounts, "Add another account", i => `<div class="row">${field(`accounts.${i}.name`, "Account", { list: "acctList" })}${select(`accounts.${i}.step`, "Second login step", D.stepOptions)}</div>`) +
+        `<div class="card" style="margin-top:16px">${field("pm.name", "Password manager, if one is used", { ph: "Apple Passwords, Bitwarden, Google…", help: "Leave blank if passwords are kept another way. Never write a password here." })}${field("mfa.backup", "Where backup codes and the emergency sheet are kept", { ph: "in the fireproof box in the hall closet" })}</div>` },
+    { title: "Devices", lead: "The phones, tablets and computers that are used for email or banking.",
+      body: () => rows("devices", BLANK.devices, "Add another device", i => `${field(`devices.${i}.name`, "Device", { ph: "iPhone, HP laptop, iPad…" })}<div class="row">${field(`devices.${i}.lock`, "How it is locked", { ph: "Passcode, fingerprint, PIN…" })}${select(`devices.${i}.updates`, "Updates", ["Automatic", "I do them by hand", "Not sure"])}</div>${field(`devices.${i}.backup`, "Backup", { ph: "iCloud, external drive, none yet…" })}`) },
+    { title: "What is already in place?", lead: "Tick what is done. Anything not ticked becomes the to-do list in the playbook.",
+      body: () => `<div class="card checks">${D.setups.map((x, i) => `<label><input type="checkbox" data-done="${i}"${S.done.includes(x) ? " checked" : ""}><span>${esc(x.replace(/^Agreed a/, "Agreed on a"))}</span></label>`).join("")}</div>` +
+        tip("A family code word", "Pick a word only the family knows. Anyone who calls asking for money and claiming to be family must say it. It defeats the \"grandchild in trouble\" call and voice-cloning scams.") },
+    { title: "Review and download", lead: "Check the details, then download the playbook. Print it and keep it by the computer.",
+      body: () => { const n = a => a.filter(x => (x.name || "").trim()).length;
+        return `<div class="card"><ul class="sum"><li><b>Playbook for</b><span>${esc(S.client.name || "Not entered")}</span></li><li><b>Family helper</b><span>${esc(S.client.helperName || "None listed")}</span></li><li><b>Banks and cards</b><span>${n(S.banks)}</span></li><li><b>Cell phone company</b><span>${esc(S.carrier.name || "Not listed")}</span></li><li><b>Other numbers</b><span>${n(S.contacts)}</span></li><li><b>Accounts</b><span>${n(S.accounts)}</span></li><li><b>Devices</b><span>${n(S.devices)}</span></li></ul></div>
+        <div class="card"><p style="margin:0 0 12px">This purchase covers <b>${GATE.seats} playbook${GATE.seats === 1 ? "" : "s"}</b>${GATE.seats === 1 ? ", for one person" : ""}. The first download fixes the name. You can correct other details and download again as often as you need until your access ends.</p>
+        <div class="files"><button type="button" class="btn go" id="make">Download the playbook (PDF)</button><button type="button" class="btn sm" id="saveFile">Save my answers to a file</button></div></div>` +
+        printCard() +
+        (seller.name ? tip("Want someone to check it with you?", [seller.name, seller.phone, seller.web].filter(Boolean).join(" · ")) : ""); } },
+  ];
+
+  let lastPdf = null, printed = "";
+  function printCard() {
+    if (printed) return `<div class="card"><b style="font-family:system-ui,sans-serif">Sent for printing.</b> Reference ${esc(printed)}. It will be mailed to ${esc(GATE.shipTo)}. You will get an email when it ships.</div>`;
+    if (GATE.prints > 0) return `<div class="card"><label style="margin-bottom:10px">Your printed copy</label><p style="margin:0 0 12px">Your order includes a large-print, bound copy mailed to <b>${esc(GATE.shipTo || "the address you gave at checkout")}</b>. Download the playbook and check it first; the printed copy is made from that download.</p>
+      <div class="checks"><label><input type="checkbox" id="printOk"><span>I agree to send this playbook to ${esc(seller.name || "the seller")} and their printing company so it can be printed and mailed. The stored file is deleted when it ships, and no later than ${GATE.keepDays} days from now.</span></label></div>
+      <button type="button" class="btn" id="sendPrint">Send for printing</button></div>`;
+    if (GATE.printUrl) return `<div class="card"><label style="margin-bottom:8px">Want a printed copy?</label><p style="margin:0 0 12px">We can print a large-print, bound copy and mail it. Finish and download your playbook first.</p><a class="btn sm" style="display:inline-block;text-decoration:none" href="${esc(GATE.printUrl)}">Add a printed copy</a></div>`;
+    return "";
+  }
+  async function sendPrint() {
+    if (!lastPdf) { say("Download the playbook first and check it. Then send it for printing.", "bad"); return; }
+    if (!$("printOk").checked) { say("Please tick the box to agree before sending.", "bad"); return; }
+    const btn = $("sendPrint"); btn.disabled = true; say("Sending your playbook to be printed…");
+    try {
+      const r = await fetch("/api/print", { method: "POST", headers: { "content-type": "application/pdf", "x-gate-token": GATE.t, "x-name-hash": lastPdf.h, "x-consent": "yes" }, body: lastPdf.blob });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.ok) { say(j.message || "It could not be sent. Please try again.", "bad"); btn.disabled = false; return; }
+      printed = j.id; GATE.prints = j.left; draw(); say("Sent for printing. You will get an email when it ships.", "ok");
+    } catch (e) { say("It could not be sent. Check your connection and try again.", "bad"); btn.disabled = false; }
+  }
+  function draw(focus) {
+    const s = STEPS[S.step];
+    $("stepno").textContent = "Step " + (S.step + 1) + " of " + STEPS.length;
+    $("title").textContent = s.title.replace("they", them());
+    $("lead").textContent = s.lead; $("body").innerHTML = s.body();
+    $("prog").style.width = Math.round((S.step) / (STEPS.length - 1) * 100) + "%";
+    $("back").style.visibility = S.step ? "visible" : "hidden";
+    $("next").style.display = S.step === STEPS.length - 1 ? "none" : "";
+    $("next").textContent = S.step === 0 ? "Start" : "Next";
+    say("");
+    if (focus) { window.scrollTo(0, 0); $("title").focus(); }
+  }
+  const say = (t, cls) => { const m = $("msg"); m.textContent = t; m.className = "msg" + (cls ? " " + cls : ""); };
+
+  document.addEventListener("input", e => {
+    const t = e.target;
+    if (t.dataset.p) { set(t.dataset.p, t.value); if (t.dataset.p === "carrier.name") { S.carrier.phone = D.carriers[t.value] || ""; keep(); draw(); return; } keep(); }
+    else if (t.dataset.done !== undefined) { const x = D.setups[+t.dataset.done]; S.done = t.checked ? [...new Set([...S.done, x])] : S.done.filter(y => y !== x); S.codeWord = S.done.includes("Agreed a family code word"); keep(); }
+  });
+  document.addEventListener("click", e => {
+    const a = e.target.closest("[data-add]"), d = e.target.closest("[data-del]");
+    if (a) { S[a.dataset.add].push({ ...BLANK[a.dataset.add] }); keep(); draw(); }
+    else if (d) { const [k, i] = d.dataset.del.split("."); S[k].splice(+i, 1); if (!S[k].length) S[k].push({ ...BLANK[k] }); keep(); draw(); }
+    else if (e.target.id === "make") make();
+    else if (e.target.id === "sendPrint") sendPrint();
+    else if (e.target.id === "saveFile") offer("playbook-answers.json", new Blob([JSON.stringify({ app: "diy-playbook", v: 1, data: S }, null, 2)], { type: "application/json" }));
+  });
+  document.addEventListener("change", async e => {
+    if (e.target.id !== "openFile") return;
+    try { const j = JSON.parse(await e.target.files[0].text()); if (j.app !== "diy-playbook") throw 0; S = Object.assign(fresh(), j.data, { step: 1 }); keep(); draw(true); say("Opened your saved answers.", "ok"); }
+    catch (err) { say("That file is not a saved playbook.", "bad"); }
+  });
+  $("next").addEventListener("click", () => { const s = STEPS[S.step], bad = s.check && s.check(); if (bad) { say(bad, "bad"); return; } S.step = Math.min(STEPS.length - 1, S.step + 1); keep(); draw(true); });
+  $("back").addEventListener("click", () => { S.step = Math.max(0, S.step - 1); keep(); draw(true); });
+
+  function offer(filename, blob) { if (window.__demoSave) return window.__demoSave(filename, blob); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = filename; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); }
+  async function nameHash(name) {
+    const norm = name.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+    const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(GATE.t + "|" + norm));
+    return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
+  }
+  function data() {
+    const helper = S.client.helperName.trim(), named = a => a.filter(x => (x.name || "").trim());
+    const todo = D.setups.filter(x => !S.done.includes(x)).concat(named(S.accounts).filter(a => a.step === "Not turned on yet").map(a => "Turn on a second login step for " + a.name)).concat(S.carrier.name && S.carrier.lock === D.carrierLocks[3] ? ["Ask " + S.carrier.name + " for a number lock and an account PIN"] : []);
+    return { mode: "prepared", orderRef: GATE.order ? "Order " + GATE.order : "", seller,
+      me: { first: helper.split(/\s+/)[0] || "", phone: S.client.helperPhone, email: "", name: "", brand: seller.product || "Family Security Playbook", company: seller.name || "" },
+      client: { ...S.client, date: fmt(today), version: "1", reviewBy: fmt(nextYear) },
+      banks: named(S.banks), contacts: named(S.contacts), accounts: named(S.accounts), devices: named(S.devices),
+      carrier: { ...S.carrier, account: "", plan: "" }, codeWord: S.codeWord, mfa: { app: "", backup: S.mfa.backup }, pm: S.pm, remote: {},
+      incident: { fixes: S.done, todo: [...new Set(todo)] }, hotlines: D.hotlines, hotlinesChecked: D.hotlinesChecked || D.carriersChecked,
+      include: { carrier: !!S.carrier.name, mfa: true, remote: false, incident: true, pm: !!S.pm.name.trim(), redflags: true, devices: named(S.devices).length > 0, routine: true, report: true, family: true } };
+  }
+  async function make() {
+    const btn = $("make");
+    if (!S.client.name.trim()) { say("Go back to step 2 and enter the name for the playbook.", "bad"); return; }
+    if (!window.jspdf || !window.Playbook) { say("The page did not finish loading. Reload it and try again.", "bad"); return; }
+    btn.disabled = true; say("Checking your access…");
+    try {
+      const h = await nameHash(S.client.name);
+      const r = await fetch("/api/claim", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ t: GATE.t, h }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.ok) { say(j.message || "Your access could not be confirmed. Use the link from your email, or contact us.", "bad"); return; }
+      const doc = window.Playbook.build(window.jspdf.jsPDF, data());
+      const blob = doc.output("blob"); lastPdf = { blob, h };
+      offer("Security-Playbook-" + S.client.name.trim().replace(/[^a-z0-9]+/gi, "-") + ".pdf", blob);
+      say("Your playbook is downloading. Print it and keep it by the computer.", "ok");
+    } catch (err) { say("Something went wrong building the playbook. Check your connection and try again.", "bad"); }
+    finally { btn.disabled = false; }
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
