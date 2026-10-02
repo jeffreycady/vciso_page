@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hacked or Scammed? Recovery Help for Older Adults — Jeff Cady Security</title>
+<meta name="description" content="Hands-on recovery for older adults in Maricopa County who have been hacked or scammed. Devices cleaned, accounts secured, and everything explained in plain language by a local CISSP-certified security professional.">
+<link rel="canonical" href="https://security.jcady.org/er.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Shared site-family theme, loaded from jcady.org so both sites stay in sync -->
+<link rel="stylesheet" href="https://www.jcady.org/theme.css">
+<style>
+  /* Page-specific styles. Type is set larger than the rest of the site on purpose: this page is read by older adults and worried family members. */
+  :root{--e-pine:var(--pine,#1B2A1F);--e-pine2:var(--pine-2,#25372A);--e-cream:var(--cream,#F7F2E7);--e-paper:var(--paper-2,#F1EEE1);--e-ink:var(--ink,#232922);--e-soft:#4c5546;--e-accent:var(--accent,#CB5A28);--e-accent-dark:#A8461C;--e-line:#c9c0a7;}
+  [hidden]{display:none !important;}
+  body{font-size:19px;line-height:1.65;color:var(--e-ink);background:var(--e-paper);margin:0;font-family:'Source Serif 4',Georgia,serif;}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px;}
+  a{color:var(--e-accent-dark);text-underline-offset:3px;}
+  h1,h2,h3{font-family:'Big Shoulders Display','Arial Narrow',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.02em;line-height:1.02;text-wrap:balance;margin:0;}
+  :focus-visible{outline:3px solid var(--e-accent);outline-offset:3px;}
+
+  .e-hero{background:var(--e-pine);color:var(--e-cream);padding:0 0 64px;}
+  .e-top{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;padding:22px 0 0;}
+  .brand{display:flex;align-items:baseline;gap:12px;text-decoration:none;color:var(--e-cream);}
+  .brand b{font-family:'Big Shoulders Display',sans-serif;font-size:26px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;}
+  .brand b em{font-style:normal;color:var(--e-accent);}
+  .brand span{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.17em;text-transform:uppercase;color:#c8b190;}
+  .e-phone{font-family:'IBM Plex Mono',monospace;font-size:17px;font-weight:600;color:var(--e-cream);text-decoration:none;border:1px solid rgba(247,242,231,.4);border-radius:26px;padding:10px 20px;white-space:nowrap;}
+  .e-phone:hover{border-color:var(--e-accent);color:var(--e-cream);}
+  .e-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#e0a889;margin:64px 0 18px;}
+  .e-hero h1{font-size:clamp(44px,8.4vw,84px);color:var(--e-cream);}
+  .e-hero h1 em{font-style:normal;color:#EE8A5C;display:block;}
+  .e-hero p.lead{font-size:22px;line-height:1.5;color:#e6dfcd;max-width:36em;margin:26px 0 30px;}
+  .btn-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+  .e-btn{display:inline-block;background:var(--e-accent);color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:16px;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;padding:17px 26px;border:0;border-radius:4px;cursor:pointer;}
+  .e-btn:hover{background:var(--e-accent-dark);color:#fff;}
+  .e-btn.ghost{background:transparent;border:1px solid rgba(247,242,231,.5);color:var(--e-cream);}
+  .e-btn.ghost:hover{border-color:var(--e-cream);background:rgba(247,242,231,.08);}
+  .e-btn:disabled{opacity:.55;cursor:not-allowed;}
+
+  .e-now{background:#F6E2D4;border-bottom:1px solid #e4c3ad;padding:18px 0;font-size:18px;}
+  .e-now b{color:#8a3512;}
+
+  .e-sec{padding:64px 0;border-top:1px solid var(--e-line);}
+  .e-sec:first-of-type{border-top:0;}
+  .e-sec h2{font-size:clamp(34px,5.4vw,50px);color:var(--e-pine);margin-bottom:20px;}
+  .e-sec p{margin:0 0 18px;max-width:38em;}
+  .e-sec ul{margin:0 0 20px;padding-left:1.2em;max-width:38em;}
+  .e-sec li{margin-bottom:8px;}
+  .e-sec ul.feel{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:none;}
+  .feel li{background:var(--e-cream);border:1px solid var(--e-line);border-radius:6px;padding:14px 18px;margin:0;}
+  .feel b{display:block;}
+  .feel span{color:var(--e-soft);font-size:17px;}
+  .stat{font-size:21px;border-left:4px solid var(--e-accent);padding:4px 0 4px 18px;margin:26px 0;}
+
+  .jeff{display:grid;grid-template-columns:200px minmax(0,1fr);gap:32px;align-items:start;}
+  .jeff img{width:200px;height:200px;object-fit:cover;border-radius:6px;display:block;}
+  .creds{font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.04em;color:var(--e-soft);margin-top:4px;}
+
+  .promise{background:var(--e-pine);color:var(--e-cream);border-top:0;}
+  .promise h2{color:var(--e-cream);}
+  .promise p{color:#e6dfcd;}
+  .promise ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:none;margin:24px 0 0;}
+  .promise li{background:var(--e-pine2);border:1px solid rgba(247,242,231,.14);border-radius:6px;padding:18px 20px;margin:0;}
+  .promise li b{display:block;color:#fff;margin-bottom:4px;}
+  .promise li span{color:#d9d2c0;font-size:17px;}
+
+  .tiers{display:grid;gap:20px;margin-top:8px;}
+  .tier{background:var(--e-cream);border:1px solid var(--e-line);border-radius:8px;padding:28px 30px;}
+  .tier-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 20px;margin-bottom:6px;}
+  .tier h3{font-size:30px;color:var(--e-pine);}
+  .price{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:21px;color:var(--e-accent-dark);font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .best{font-style:italic;color:var(--e-soft);margin:0 0 14px !important;}
+  .tier ul{margin-bottom:14px;}
+  .when{font-family:'IBM Plex Mono',monospace;font-size:14.5px;letter-spacing:.03em;color:var(--e-soft);margin:0 !important;}
+  .fine{font-size:17px;color:var(--e-soft);}
+  .pay-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:18px;padding-top:18px;border-top:1px solid var(--e-line);}
+  .pay-note{font-size:16.5px;color:var(--e-soft);flex:1 1 260px;min-width:0;}
+
+  .e-sec ul.pay{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 28px;list-style:none;padding:0;max-width:none;}
+  .pay li{margin:0;border-top:2px solid var(--e-pine);padding-top:10px;}
+  .pay b{display:block;}
+
+  .example{background:var(--e-cream);border:1px solid var(--e-line);border-radius:8px;padding:26px 30px;margin-top:18px;}
+  .example.real{border:2px solid var(--e-pine);}
+  .tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--e-pine);color:var(--e-cream);padding:4px 10px;border-radius:3px;margin-bottom:12px;}
+  .example h3{font-size:26px;color:var(--e-pine);margin-bottom:12px;}
+  .example h4{font-family:'IBM Plex Mono',monospace;font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--e-accent-dark);margin:16px 0 6px;}
+  .example p{margin-bottom:8px;}
+
+  details{border-top:1px solid var(--e-line);padding:6px 0;max-width:40em;}
+  details:last-of-type{border-bottom:1px solid var(--e-line);}
+  summary{cursor:pointer;font-weight:600;font-size:20px;padding:14px 0;list-style-position:outside;}
+  details p,details ul{margin-top:0;}
+
+  .e-cta{background:var(--e-pine);color:var(--e-cream);padding:64px 0;}
+  .e-cta h2{color:var(--e-cream);font-size:clamp(36px,6vw,56px);margin-bottom:14px;}
+  .e-cta p{color:#e6dfcd;max-width:36em;margin:0 0 18px;}
+  .cta-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:44px;align-items:start;margin-top:28px;}
+  .callbox{border:1px solid rgba(247,242,231,.25);border-radius:8px;padding:24px 26px;}
+  .callbox .big{font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:44px;line-height:1;color:#fff;text-decoration:none;display:block;margin:6px 0 8px;font-variant-numeric:tabular-nums;}
+  .callbox .lbl{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#e0a889;}
+  .callbox .hrs{font-size:17px;color:#d9d2c0;margin:0;}
+  form.ask{display:grid;gap:16px;}
+  .f{display:flex;flex-direction:column;gap:6px;}
+  .f label{font-family:'IBM Plex Mono',monospace;font-size:13.5px;letter-spacing:.06em;text-transform:uppercase;color:#d8c7a8;}
+  .f input,.f select,.f textarea{font:inherit;font-size:18px;color:var(--e-ink);background:var(--e-cream);border:1px solid var(--e-cream);border-radius:4px;padding:13px 14px;width:100%;box-sizing:border-box;}
+  .f textarea{min-height:110px;resize:vertical;}
+  .f small{font-size:15.5px;color:#d9d2c0;}
+  .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+  .msg{font-size:17px;margin:0;}
+  .msg.ok{background:rgba(98,160,104,.2);border:1px solid #7fb685;border-radius:6px;padding:16px 18px;color:#fff;}
+  .msg.bad{color:#F2B8A0;}
+
+  .e-foot{background:#141F17;color:#b9b29f;padding:26px 0;font-size:16px;}
+  .e-foot .wrap{display:flex;flex-wrap:wrap;gap:8px 28px;justify-content:space-between;}
+  .e-foot a{color:#d9d2c0;}
+
+  @media (max-width:700px){
+    body{font-size:18px;}
+    .feel,.promise ul,.pay,.two,.cta-grid{grid-template-columns:minmax(0,1fr);}
+    .jeff{grid-template-columns:minmax(0,1fr);}
+    .jeff img{width:140px;height:140px;}
+    .e-eyebrow{margin-top:44px;}
+    .tier,.example{padding:22px 20px;}
+    .callbox .big{font-size:38px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="e-hero" id="top">
+  <div class="wrap">
+    <div class="e-top">
+      <a class="brand" href="index.html"><b>Jeff <em>Cady</em></b><span>Security</span></a>
+      <a class="e-phone" href="tel:+12068497494">Call (206) 849-7494</a>
+    </div>
+    <p class="e-eyebrow">Recovery help for older adults &middot; Maricopa County, Arizona</p>
+    <h1>Security without the jargon. <em>Support without the shame.</em></h1>
+    <p class="lead">When you or someone you love gets hacked or scammed, you deserve more than a tech support hotline. You deserve someone who understands what happened, explains it clearly, and helps you feel safe again.</p>
+    <div class="btn-row">
+      <a class="e-btn" href="#talk">Ask for a free 15-minute call</a>
+      <a class="e-btn ghost" href="#help">See how I can help</a>
+    </div>
+  </div>
+</header>
+
+<div class="e-now">
+  <div class="wrap"><b>Is money leaving your account right now?</b> Call your bank's fraud line first. The number is on the back of your card. Then call me.</div>
+</div>
+
+<main>
+
+  <section class="e-sec">
+    <div class="wrap">
+      <h2>It happened. Now what?</h2>
+      <p>If you're reading this, a computer or an online account has probably been compromised. Maybe it was a virus on a device. Maybe a scammer got access. Maybe a password was stolen. Whatever it was, you may feel:</p>
+      <ul class="feel">
+        <li><b>Confused</b><span>What actually happened?</span></li>
+        <li><b>Embarrassed</b><span>How did I let this happen?</span></li>
+        <li><b>Worried</b><span>Will it happen again?</span></li>
+        <li><b>Unsure who to trust</b><span>Is the next person a scammer too?</span></li>
+      </ul>
+      <p class="stat"><b>You're not alone.</b> Americans over 60 report losing more than $3 billion a year to online fraud, according to the FBI, and many never report it at all.</p>
+      <p>Here's something that may help: <b>companies with entire security teams get hacked all the time.</b> They aren't careless. Attackers are persistent, and this is their full-time job. If large corporations can be caught, anyone can. You didn't fail. You were targeted by professionals.</p>
+      <p><b>The good news:</b> I bring the same skills companies use to recover. Your accounts can be secured. Your devices can be cleaned. Your peace of mind can come back.</p>
+    </div>
+  </section>
+
+  <section class="e-sec">
+    <div class="wrap">
+      <h2>Hi. I'm Jeff.</h2>
+      <div class="jeff">
+        <img src="headshot.jpg" alt="Jeff Cady" width="200" height="200">
+        <div>
+          <p>I've spent more than ten years in cybersecurity, much of it helping organizations respond to and recover from security incidents. I hold the CISSP, one of the field's most recognized certifications.</p>
+          <p>What matters more: <b>I'm local.</b> I'm based in Maricopa County. I'm not a national call center or an automated service. When you work with me, you're working with one person you can call back, who knows your situation and will still be here next month.</p>
+          <p>I started offering recovery help for older adults because I kept seeing the same thing: smart, capable people caught by scammers, then left to fix it alone. They shouldn't have to.</p>
+          <p class="creds">Jeff Cady, CISSP &middot; JCady LLC &middot; Goodyear, AZ</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="e-sec promise">
+    <div class="wrap">
+      <h2>How you'll know it's really me</h2>
+      <p>After a scam, it's sensible to be suspicious of everyone, including me. These are the rules I work by, so you can tell my help from the next scam.</p>
+      <ul>
+        <li><b>I never ask for your passwords.</b><span>You type them yourself. I look away or you cover the screen.</span></li>
+        <li><b>I never take gift cards, wire transfers or cryptocurrency.</b><span>You pay by card through a secure checkout, or by check, and you get a receipt.</span></li>
+        <li><b>I never call you out of the blue.</b><span>You contact me first. If someone calls claiming to be me, hang up and dial my number yourself.</span></li>
+        <li><b>You see a written agreement before any work.</b><span>It lists what I'll do and what it costs, in plain language.</span></li>
+        <li><b>You watch everything I do on your computer.</b><span>Remote access is only on while we're on the phone, and I remove it when we finish.</span></li>
+        <li><b>Family is welcome.</b><span>Bring a son, daughter or friend onto any call. I'd encourage it.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="e-sec" id="help">
+    <div class="wrap">
+      <h2>Three ways I can help</h2>
+      <div class="tiers">
+
+        <div class="tier">
+          <div class="tier-head"><h3>Incident triage and device recovery</h3><span class="price">$700</span></div>
+          <p class="best">Best if you think you've been hacked but aren't sure how bad it is.</p>
+          <ul>
+            <li>A first conversation by phone or video, your choice</li>
+            <li>A careful look at what actually happened</li>
+            <li>Device cleanup: removing viruses and suspicious software</li>
+            <li>New passwords and a second login step on your key accounts</li>
+            <li>One call to brief your family, if you'd like</li>
+            <li>30 days of follow-up by phone or email</li>
+          </ul>
+          <p class="when">Usually takes 1&ndash;2 weeks</p>
+          <div class="pay-row"><a class="e-btn" href="https://buy.stripe.com/bJecN70nIgdbajA0Vj7bW05" target="_blank" rel="noopener">Pay $700 by card</a><span class="pay-note">Secure card checkout by Stripe. Not sure this is the right option? <a href="#talk">Ask for a free call first.</a></span></div>
+        </div>
+
+        <div class="tier">
+          <div class="tier-head"><h3>Full account recovery and security review</h3><span class="price">$1,600</span></div>
+          <p class="best">Best if you need to know that everything is actually fixed.</p>
+          <ul>
+            <li>Everything in incident triage, plus:</li>
+            <li>A full check and lock-down of your email account</li>
+            <li>Help with your bank: we prepare together, then I sit with you on the call to the fraud department</li>
+            <li>A review of your social media and other online accounts</li>
+            <li>A written record of what happened, for fraud claims and bank disputes</li>
+            <li>Credit monitoring or a credit freeze set up, if your identity was stolen</li>
+            <li>Your own security playbook: a short guide you can keep by the computer</li>
+          </ul>
+          <p class="when">Usually takes 2&ndash;3 weeks</p>
+          <div class="pay-row"><a class="e-btn" href="https://buy.stripe.com/4gM00l0nI8KJcrI9rP7bW04" target="_blank" rel="noopener">Pay $1,600 by card</a><span class="pay-note">Secure card checkout by Stripe. Not sure this is the right option? <a href="#talk">Ask for a free call first.</a></span></div>
+        </div>
+
+        <div class="tier">
+          <div class="tier-head"><h3>Annual protection plan</h3><span class="price">$2,250 a year</span></div>
+          <p class="best">Best if you want ongoing peace of mind and your family involved.</p>
+          <ul>
+            <li>A visit to your home to check your devices and home network</li>
+            <li>Devices and accounts set up securely from the start</li>
+            <li>A 15-minute check-in call every month</li>
+            <li>Priority help if something new happens</li>
+            <li>A training call for a family member on how to help you from a distance</li>
+          </ul>
+          <p class="when">Year-round, starting with the home visit</p>
+          <div class="pay-row"><a class="e-btn" href="https://buy.stripe.com/aFa4gBc6q6CB8bs5bz7bW03" target="_blank" rel="noopener">Pay $2,250 a year by card</a><span class="pay-note">Secure card checkout by Stripe. Not sure this is the right option? <a href="#talk">Ask for a free call first.</a></span></div>
+        </div>
+
+      </div>
+      <p class="fine" style="margin-top:22px">These prices cover most households. If your situation is unusually large, or isn't something I can fix, I'll tell you on the free call before you pay. You'll get a written agreement before I start. I can't promise that lost money will be returned; that decision belongs to your bank. I can make sure your claim is as strong and well documented as possible.</p>
+    </div>
+  </section>
+
+  <section class="e-sec">
+    <div class="wrap">
+      <h2>What you're actually paying for</h2>
+      <p>This isn't ordinary tech support. You're paying for:</p>
+      <ul class="pay">
+        <li><b>Expertise</b>More than ten years of professional security and incident response work.</li>
+        <li><b>Your time back</b>The hours you'd spend trying to work this out alone.</li>
+        <li><b>Peace of mind</b>Knowing someone qualified checked everything.</li>
+        <li><b>Support</b>A person you can call when a new question comes up.</li>
+        <li><b>Local trust</b>Someone from Maricopa County who stands behind the work.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="e-sec">
+    <div class="wrap">
+      <h2>What recovery looks like</h2>
+      <p>The first example is real, and it happened in my own family. I share it with my son's permission. The two after it are illustrations of how I'd handle common scams, not accounts of specific clients.</p>
+
+      <div class="example real">
+        <span class="tag">A real case &middot; my own family</span>
+        <h3>The fake job offer</h3>
+        <h4>What happened</h4>
+        <p>My son was "hired" for a job that didn't exist. The offer came from a real company's HR email account, which criminals had broken into, and the onboarding happened over Microsoft Teams. As part of the onboarding, they sent him a fraudulent check. If it can happen in a security professional's family, it can happen in anyone's.</p>
+        <h4>What we did</h4>
+        <ul>
+          <li>Reported the fraudulent check to his bank</li>
+          <li>Filed a report with the FBI</li>
+          <li>Told the HR person whose email account had been taken over, so the company could lock the criminals out</li>
+          <li>Reported the Teams account used in the scam to Microsoft, which shut it down</li>
+        </ul>
+        <h4>Why it matters</h4>
+        <p>Recovery isn't only about cleaning one computer. It's knowing who to call, in what order, and what to say, so the scam stops and the next person isn't caught by it.</p>
+      </div>
+
+      <div class="example">
+        <h3>The fake bank email</h3>
+        <h4>What happens</h4>
+        <p>An email arrives that looks like it's from the bank. The link leads to a copy of the bank's website. Once the username and password are typed in, the scammer has them and starts moving money.</p>
+        <h4>What we'd do</h4>
+        <ul>
+          <li>Call the bank's fraud department together and report the transfers as unauthorized</li>
+          <li>Secure email, banking and investment accounts, starting with email</li>
+          <li>Turn on a second login step and set up a password manager</li>
+          <li>Write up a clear timeline for the bank's dispute process</li>
+        </ul>
+        <h4>What you'd end up with</h4>
+        <p>A documented claim with the bank, accounts the scammer can no longer reach, and a routine for telling real bank messages from fake ones.</p>
+      </div>
+
+      <div class="example">
+        <h3>The fake tech support pop-up</h3>
+        <h4>What happens</h4>
+        <p>A loud warning fills the screen saying the computer is infected and to call a number. The person who answers asks for remote access, installs harmful software, and then charges hundreds of dollars to "fix" it.</p>
+        <h4>What we'd do</h4>
+        <ul>
+          <li>Back up photos and documents, then wipe the computer and reinstall it cleanly</li>
+          <li>Dispute the charge with the card company</li>
+          <li>Change passwords for anything used on that computer</li>
+          <li>Show you and a family member how to spot and close fake warnings</li>
+        </ul>
+        <h4>What you'd end up with</h4>
+        <p>A clean computer, new passwords, and the confidence to close the next pop-up without calling the number.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="e-sec">
+    <div class="wrap">
+      <h2>Questions I hear</h2>
+      <details open>
+        <summary>I'm not good with computers. Can you still help?</summary>
+        <p>Yes, and that's the whole point. I don't expect you to know technical terms. I explain things in plain language, and if something isn't clear, I slow down and try again. That's the service.</p>
+      </details>
+      <details>
+        <summary>How long does this take?</summary>
+        <p>Incident triage usually takes one to two weeks. Full account recovery takes two to three weeks. The protection plan runs all year. Most of the work happens by phone or video, with you watching. If you'd rather I come to your home, we can arrange that.</p>
+      </details>
+      <details>
+        <summary>Will this happen again?</summary>
+        <p>No one can promise perfect security. After we work together you'll have a clean device, strong passwords that are all different, a second login step on your important accounts, a clear guide for spotting scams, and a person to call when something seems off. That puts you well ahead of most people.</p>
+      </details>
+      <details>
+        <summary>Should I go to the police?</summary>
+        <p>It depends on what happened, and we'll talk it through on the first call. In general, tell your bank first. You can also report it to:</p>
+        <ul>
+          <li>The Federal Trade Commission at <a href="https://reportfraud.ftc.gov" target="_blank" rel="noopener">reportfraud.ftc.gov</a></li>
+          <li>The FBI's Internet Crime Complaint Center at <a href="https://www.ic3.gov" target="_blank" rel="noopener">ic3.gov</a></li>
+          <li>Your local police or the Maricopa County Sheriff's Office, especially if you lost money</li>
+        </ul>
+        <p>A report helps with bank disputes even when the police can't recover the money.</p>
+      </details>
+      <details>
+        <summary>I'm calling about my parent. Is that all right?</summary>
+        <p>Yes. Many first calls come from a son or daughter. I'll need your parent to agree to the work and be part of it, since the accounts and devices are theirs.</p>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<section class="e-cta" id="talk">
+  <div class="wrap">
+    <h2>Let's get you secure again</h2>
+    <p>Start with a free 15-minute phone call. No obligation. We'll talk about what happened and which option fits.</p>
+    <div class="cta-grid">
+      <div class="callbox">
+        <span class="lbl">Call me</span>
+        <a class="big" href="tel:+12068497494">(206) 849-7494</a>
+        <p class="hrs">Monday to Friday, 9 a.m. to 5 p.m. Arizona time. If I don't answer, leave your name and number and I'll call back the same or next business day.</p>
+      </div>
+      <div>
+        <div id="askDone" class="msg ok" hidden>Thank you. I have your message and will call you within one business day. &mdash; Jeff</div>
+        <form class="ask" id="askForm" action="https://formspree.io/f/xyezjada" method="POST" novalidate>
+          <div class="two">
+            <div class="f"><label for="eName">Your name</label><input type="text" id="eName" name="name" autocomplete="name" required></div>
+            <div class="f"><label for="ePhone">Phone number</label><input type="tel" id="ePhone" name="phone" autocomplete="tel" inputmode="tel" required></div>
+          </div>
+          <div class="two">
+            <div class="f"><label for="eWho">Who needs help?</label>
+              <select id="eWho" name="who"><option>Me</option><option>My parent or relative</option><option>A friend or neighbor</option></select></div>
+            <div class="f"><label for="eTime">Best time to call</label>
+              <select id="eTime" name="best_time"><option>Morning</option><option>Afternoon</option><option>Any time</option></select></div>
+          </div>
+          <div class="f"><label for="eEmail">Email (optional)</label><input type="email" id="eEmail" name="email" autocomplete="email"></div>
+          <div class="f"><label for="eMsg">What happened? (optional)</label><textarea id="eMsg" name="message"></textarea>
+            <small>A sentence or two is plenty. Please don't type passwords, card numbers or account numbers here.</small></div>
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="_subject" value="Recovery help request — security.jcady.org/er.html">
+          <div><button type="submit" class="e-btn" id="askSend">Ask Jeff to call me</button></div>
+          <p class="msg bad" id="askErr" role="alert" hidden></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="e-foot">
+  <div class="wrap">
+    <span>&copy; 2026 JCady LLC &middot; Maricopa County, AZ &middot; CISSP</span>
+    <span><a href="index.html">Security help for businesses</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var form = document.getElementById('askForm'), err = document.getElementById('askErr'), btn = document.getElementById('askSend');
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    err.hidden = true;
+    var name = document.getElementById('eName').value.trim(), phone = document.getElementById('ePhone').value.trim();
+    if (!name || phone.replace(/\D/g, '').length < 10) {
+      err.textContent = 'Please enter your name and a phone number with area code so I can call you back.';
+      err.hidden = false; (name ? document.getElementById('ePhone') : document.getElementById('eName')).focus(); return;
+    }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      var r = await fetch(form.action, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) });
+      if (!r.ok) throw new Error(r.status);
+      form.hidden = true; document.getElementById('askDone').hidden = false;
+    } catch (x) {
+      err.textContent = "That didn't go through. Please call (206) 849-7494 instead.";
+      err.hidden = false; btn.disabled = false; btn.textContent = 'Ask Jeff to call me';
+    }
+  });
+})();
+</script>
+<script data-goatcounter="https://jcady.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
