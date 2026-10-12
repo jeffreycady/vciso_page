@@ -8,7 +8,7 @@ Reporting a vulnerability
 Please report suspected vulnerabilities privately. Do not open a public issue.
 
 Preferred: use GitHub's "Report a vulnerability" button on this repository's Security tab (private vulnerability reporting).
-Alternative: email Jeff Cady (JCady LLC) at YOUR-ADDRESS-HERE, subject line "Security: <repository name>".
+Alternative: email Jeff Cady (JCady LLC) at jeff@jcady.org, subject line "Security: <repository name>".
 
 Please include what you found, where (file, page, or URL), steps to reproduce, and the impact you think it has. Proof-of-concept code is welcome but not required.
 
