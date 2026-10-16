@@ -133,6 +133,11 @@
   .check-band p{margin:0;color:#d9d2c0;max-width:62ch;}
   .check-band .btn{flex-shrink:0;}
   @media (max-width:760px){.check-inner{flex-direction:column;align-items:flex-start;}}
+  .pb-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:22px;}
+  .pb-col{background:rgba(247,242,231,.06);border:1px solid rgba(247,242,231,.22);border-radius:var(--radius);padding:22px;display:flex;flex-direction:column;gap:14px;align-items:flex-start;}
+  .pb-col h3{margin:0;color:var(--cream);font-size:20px;}
+  .pb-col .btn{margin-top:auto;}
+  @media (max-width:760px){.pb-grid{grid-template-columns:1fr;}}
   /* ---------- HOW IT WORKS ---------- */
   .how-steps{list-style:none;counter-reset:s;padding:0;margin:18px 0 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
   .how-steps li{counter-increment:s;background:var(--paper-2);border:1px solid var(--line-soft);border-radius:var(--radius);padding:18px 18px 16px;font-size:15px;color:var(--ink-soft);}
@@ -158,7 +163,7 @@
         <a href="#about">About</a>
         <a href="insurance.html">Cyber insurance</a>
         <a href="rc.html">Free check</a>
-        <a href="https://familysecurityplaybook.com/">Family playbook</a>
+        <a href="#playbooks">Playbooks</a>
         <a class="btn small" href="#contact">Book a consult</a>
       </nav>
     </div>
@@ -362,14 +367,22 @@
     </div>
   </section>
 
-  <section class="check-band" aria-labelledby="diy-title">
-    <div class="wrap check-inner">
-      <div>
-        <div class="eyebrow">Do it yourself &middot; from $39</div>
-        <h2 id="diy-title">Want a plan in place before anything happens?</h2>
-        <p>The Family Security Playbook: answer plain questions for about 20 minutes and print a large-type guide with the right phone numbers and what to do when something seems wrong.</p>
+  <section class="check-band" id="playbooks" aria-labelledby="diy-title">
+    <div class="wrap">
+      <div class="eyebrow">Security playbooks &middot; built around each household</div>
+      <h2 id="diy-title">A plan in place before anything happens</h2>
+      <div class="pb-grid">
+        <div class="pb-col">
+          <h3>For families</h3>
+          <p>Answer plain questions for about 20 minutes and print a large-type guide with your own phone numbers and what to do when something seems wrong. From $39.</p>
+          <a class="btn" href="https://familysecurityplaybook.com/">See the Family Security Playbook &rarr;</a>
+        </div>
+        <div class="pb-col">
+          <h3>For businesses and organizations</h3>
+          <p>Credit unions, cities, HOAs, senior centers and employers: give a playbook to each member, resident or employee. Send codes by email or spreadsheet, with your name on every page. From 50 to 1,000 a year, starting at $395.</p>
+          <a class="btn" href="https://business.familysecurityplaybook.com/">Playbooks for businesses and organizations &rarr;</a>
+        </div>
       </div>
-      <a class="btn" href="https://familysecurityplaybook.com/">See the Family Security Playbook &rarr;</a>
     </div>
   </section>
 
@@ -410,7 +423,7 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 JCady LLC. All rights reserved. Jeff Cady Security is a service of JCady LLC.</span>
-      <span><a href="https://familysecurityplaybook.com/">Family Security Playbook</a> &middot; CISSP &middot; Goodyear, AZ &middot; Serving clients remotely</span>
+      <span><a href="https://familysecurityplaybook.com/">Family Security Playbook</a> &middot; <a href="https://business.familysecurityplaybook.com/">Playbooks for businesses and organizations</a> &middot; CISSP &middot; Goodyear, AZ &middot; Serving clients remotely</span>
     </div>
   </div>
 </footer>
