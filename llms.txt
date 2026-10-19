@@ -9,6 +9,13 @@
 - [Cyber insurance readiness](https://security.jcady.org/insurance.html): a fixed-price readiness report and a controls summary for your broker
 - [Security Readiness Check](https://security.jcady.org/rc.html): a free 5-minute check based on CISA's Cybersecurity Performance Goals and the NIST CSF, with a PDF report
 
+## Free tools
+
+- [All free tools](https://security.jcady.org/tools.html)
+- [Cyber insurance quick check](https://security.jcady.org/insurance-check.html): would the business pass a cyber insurance application?
+- [Incident Timeline](https://security.jcady.org/incident-timeline.html): a timestamped record while an incident is worked
+- [Small Office Security Checkup](https://security.jcady.org/office-checkup.html) and [office scam drill](https://security.jcady.org/office-drill.html)
+
 ## Free help after a scam or hack
 
 - [First-hour steps](https://familysecurityplaybook.com/help-now/)
@@ -16,6 +23,5 @@
 
 ## Related
 
-- [Incident Timeline](https://www.mansiosec.com/incident-timeline): a free, timestamped incident log for IT and security teams, from MansioSec (JCady LLC)
 - [Family Security Playbook](https://familysecurityplaybook.com/): printed security playbooks for families and small offices
 - [Small Office Security Checkup](https://business.familysecurityplaybook.com/checkup)
