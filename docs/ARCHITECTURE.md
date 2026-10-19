@@ -123,6 +123,7 @@ flowchart LR
   OCK -. links .-> BCK["business.familysecurityplaybook.com/checkup"]
   ER -. "first-hour steps" .-> HN["familysecurityplaybook.com/help-now/"]
   ER & IDX -. "Write down what happened" .-> RECS["familysecurityplaybook.com/help-now/record.html"]
+  IDX -. "free Incident Timeline" .-> MTL["www.mansiosec.com/incident-timeline"]
   ER & INS -- "Stripe payment links" --> ST["Stripe checkout"]
   IDX & ER & INS & RC -- contact forms --> FS["Formspree"]
   IDX & INS & RC -- embedded forms --> HS["HubSpot forms"]
