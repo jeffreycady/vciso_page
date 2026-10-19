@@ -1,12 +1,14 @@
 # security.jcady.org: architecture
 
-UML diagrams for this site, with the overview of every JCady system. Generated from docs/uml/diagrams.py in the familysecurityplaybook repository by docs/uml/make.py; change them there.
+UML diagrams for this site, with the overview of every JCady system.
+
+Generated from docs/uml/diagrams.py in the familysecurityplaybook repository by docs/uml/make.py. Edit the source there, then regenerate.
 
 ## Overview
 
 ### System context and deployment
 
-*Activity / component diagram.* Every deployed system, who uses it, and the outside services each one calls. Three Cloudflare-hosted applications and one static site.
+*Activity / component diagram.* Every deployed system, who uses it, and the outside services each one calls. Two Cloudflare Workers (five addresses) and one static site.
 
 ```mermaid
 flowchart LR
@@ -15,6 +17,7 @@ flowchart LR
     ORG["Organization staff<br/>credit union, church, HOA"]
     SHOP["Repair shop or MSP tech"]
     FIRM["Consulting firm user"]
+    PRO["Security professional<br/>(no account)"]
     JEFF["Jeff, administrator"]
   end
   subgraph CF["Cloudflare"]
@@ -23,10 +26,12 @@ flowchart LR
       BIZSITE["business.familysecurityplaybook.com<br/>business site, /partner org pages"]
       ASSETS[("Static assets<br/>public/")]
       GATE[("KV: GATE")]
-      CRON(["Daily cron 15:17 UTC"])
+      CRON(["Daily cron 15:17 UTC<br/>five jobs"])
     end
-    subgraph TK["Worker: jcady-toolkit (hosted)"]
-      TKAPP["Toolkit home, tools, /team, /admin"]
+    subgraph TK["Worker: jcady-toolkit (MansioSec)"]
+      TKAPP["app.mansiosec.com<br/>toolkit home, tools, /team, /admin"]
+      TKSALES["www.mansiosec.com<br/>sales page, free Incident Timeline"]
+      TKAPEX["mansiosec.com<br/>301 to www"]
       TKKV[("KV: TOOLKIT")]
       TKASSETS[("Assets: toolkit/")]
     end
@@ -44,6 +49,9 @@ flowchart LR
   ORG --> BIZSITE
   SHOP --> BIZSITE
   FIRM --> TKAPP
+  PRO --> TKSALES
+  TKAPEX --> TKSALES
+  TKSALES -. sign in .-> TKAPP
   JEFF --> ACCESS --> FAMSITE
   JEFF --> TKAPP
   FAMSITE --- ASSETS
@@ -65,6 +73,37 @@ flowchart LR
   ASSETS -.-> GOAT
   VCISO --> FORMS
   VCISO -. links .-> FAMSITE
+  VCISO -. links .-> BIZSITE
+  FAMSITE -. "Also from JCady LLC" .-> TKSALES
+  TKSALES -. "Family Security Playbook" .-> FAMSITE
+```
+
+### Build and deploy pipeline
+
+*Activity / component diagram.* How a change reaches production. Nothing is pushed to main directly: every change is a pull request that Jeff merges.
+
+```mermaid
+flowchart LR
+  DEV["Change on a branch"] --> PR["Pull request on GitHub"]
+  PR --> TESTS["node test/*.mjs<br/>unit and flow tests"]
+  PR --> REVIEW{"Jeff reviews<br/>and merges"}
+  REVIEW -- merge to main --> BUILD["Cloudflare Workers Builds"]
+  BUILD --> WR["npx wrangler deploy"]
+  WR --> LIVE["Live Worker + assets"]
+  subgraph LB["Local build steps, committed with the change"]
+    BPY["python3 build.py<br/>tool/*.html + engines + carry.js<br/>into src/tool.js, full.js, office.js, recovery.js"]
+    HELP["tool/make_help.py<br/>+ make_help_pdf.mjs<br/>instructions pages and PDFs"]
+    NOW["tool/make_help_now.py<br/>+ make_record_sample.mjs<br/>Something just happened guides, record sample PDF"]
+    TKS["MansioSec: hosted/tools/make_site.py<br/>+ make_timeline_sample.mjs<br/>sales page, timeline and sample into src/site.js"]
+    REL["MansioSec: docs/release.py<br/>VERSION, CHANGELOG, guides"]
+  end
+  DEV -.-> NOW
+  DEV -.-> TKS
+  DEV -.-> REL
+  DEV -.-> BPY
+  DEV -.-> HELP
+  SECRETS[("Secrets set in the Cloudflare dashboard<br/>STRIPE_*, RESEND_API_KEY, ADMIN_KEY,<br/>AUTH0_CLIENT_SECRET, PARTNER_VAULT_KEY,<br/>LULU_*, HUBSPOT_TOKEN, SESSION_KEY")] -.-> LIVE
+  NOTE["Toolkit tests: cd hosted && npm test.<br/>Only main deploys; branch preview builds can show a false red X."] -.- BUILD
 ```
 
 ## security.jcady.org
@@ -80,6 +119,11 @@ flowchart LR
   V --> INS["insurance.html<br/>cyber insurance readiness"]
   V --> RC["rc.html<br/>security readiness check"]
   V --> DEMO["family-security-playbook-demo.html"]
+  IDX --> OCK["Office checkup and sample deliverables"]
+  OCK -. links .-> BCK["business.familysecurityplaybook.com/checkup"]
+  ER -. "first-hour steps" .-> HN["familysecurityplaybook.com/help-now/"]
+  ER & IDX -. "Write down what happened" .-> RECS["familysecurityplaybook.com/help-now/record.html"]
+  ER & INS -- "Stripe payment links" --> ST["Stripe checkout"]
   IDX & ER & INS & RC -- contact forms --> FS["Formspree"]
   IDX & INS & RC -- embedded forms --> HS["HubSpot forms"]
   DEMO -. links .-> FSP["familysecurityplaybook.com"]
