@@ -1,0 +1,20 @@
+# Jeff Cady Security
+
+> vCISO advisory, security consulting and incident response for organizations without a full-time CISO, plus hands-on recovery for older adults who have been hacked or scammed. Jeff Cady, CISSP, JCady LLC, Maricopa County, Arizona; remote, with on-site visits available. Contact: jeff@jcady.org, (520) 223-9878 ext. 800.
+
+## Pages
+
+- [vCISO, consulting and incident response](https://security.jcady.org/): services, retainers, assessments, the office checkup and sample deliverables, contact
+- [Hacked or scammed? Recovery help for older adults](https://security.jcady.org/er.html): devices cleaned, accounts secured, everything explained in plain language
+- [Cyber insurance readiness](https://security.jcady.org/insurance.html): a fixed-price readiness report and a controls summary for your broker
+- [Security Readiness Check](https://security.jcady.org/rc.html): a free 5-minute check based on CISA's Cybersecurity Performance Goals and the NIST CSF, with a PDF report
+
+## Free help after a scam or hack
+
+- [First-hour steps](https://familysecurityplaybook.com/help-now/)
+- [Write down what happened](https://familysecurityplaybook.com/help-now/record): a step-by-step record of times, names, amounts and calls
+
+## Related
+
+- [Family Security Playbook](https://familysecurityplaybook.com/): printed security playbooks for families and small offices
+- [Small Office Security Checkup](https://business.familysecurityplaybook.com/checkup)
