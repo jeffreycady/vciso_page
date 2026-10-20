@@ -154,6 +154,14 @@
   .urgent{border-left:3px solid var(--accent);padding:4px 0 4px 14px;margin:0 0 22px;font-size:15px;color:#d9d2c0;}
   .urgent b{color:var(--cream);}
   .urgent a{color:var(--cream);text-decoration:underline;text-underline-offset:3px;}
+
+  /* ---------- Rounded corners (boxes that were square) ----------
+     Same scale as jcady.org's theme.css. :where() keeps these at zero
+     specificity, so they never override a radius set anywhere else;
+     --radius (2px) is unchanged. */
+  :root{--radius-sm:8px;--radius-md:12px;--radius-lg:14px;--radius-pill:999px;}
+  :where(.tile-grid){border-radius:var(--radius-md);overflow:hidden;} /* tiles and package cards stay square inside it */
+  :where(.card,.form-status){border-radius:var(--radius-md);}
 </style>
 </head>
 <body>
