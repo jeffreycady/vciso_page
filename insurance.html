@@ -30,7 +30,7 @@
   .hero-grid{display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:end;padding-top:88px;}
   .hero h1{font-size:clamp(46px, 8vw, 92px);}
   .hero p.lead{max-width:58ch;}
-  .cred{background:var(--pine-2);border:1px solid rgba(247,242,231,0.12);border-radius:var(--radius);padding:26px 28px;}
+  .cred{background:var(--pine-2);border:1px solid rgba(247,242,231,0.12);border-radius:var(--radius-md);padding:26px 28px;}
   .cred dl{margin:0;}
   .cred dt{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent);}
   .cred dd{margin:4px 0 0;font-size:15.5px;color:var(--cream);padding-bottom:16px;border-bottom:1px solid rgba(247,242,231,0.12);margin-bottom:16px;}
@@ -97,7 +97,7 @@
   .about-grid p{font-size:16.5px;margin:0 0 16px;}
   .about-grid .aside-note{font-size:15px;font-style:italic;color:var(--ink-soft);padding-top:16px;border-top:1px solid var(--line-soft);}
   .about-grid a{color:var(--accent);text-decoration:underline;text-decoration-color:rgba(203,90,40,0.4);}
-  .headshot{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center top;border-radius:var(--radius);margin-bottom:18px;}
+  .headshot{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center top;border-radius:var(--radius-md);margin-bottom:18px;}
   .facts dl{margin:0;}
   .facts dt{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent);margin-top:14px;}
   .facts dt:first-child{margin-top:0;}
@@ -120,7 +120,7 @@
   .inquiry-form .full{grid-column:1 / -1;}
   .field{display:flex;flex-direction:column;gap:8px;}
   .field label{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--dim);}
-  .field input,.field textarea{background:rgba(247,242,231,0.06);border:1px solid rgba(247,242,231,0.25);border-radius:var(--radius);color:var(--cream);font:inherit;font-size:16px;padding:12px 14px;}
+  .field input,.field textarea{background:rgba(247,242,231,0.06);border:1px solid rgba(247,242,231,0.25);border-radius:var(--radius-sm);color:var(--cream);font:inherit;font-size:16px;padding:12px 14px;}
   .field textarea{min-height:130px;resize:vertical;}
   .inquiry-form button{grid-column:1 / -1;justify-self:start;}
   .form-status{background:rgba(75,122,78,0.18);border:1px solid var(--low);color:var(--cream);padding:14px 18px;font-family:'IBM Plex Mono',monospace;font-size:13px;}
@@ -137,7 +137,7 @@
   @media (max-width:760px){.check-inner{flex-direction:column;align-items:flex-start;}}
   /* ---------- HOW IT WORKS ---------- */
   .how-steps{list-style:none;counter-reset:s;padding:0;margin:18px 0 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-  .how-steps li{counter-increment:s;background:var(--paper-2);border:1px solid var(--line-soft);border-radius:var(--radius);padding:18px 18px 16px;font-size:15px;color:var(--ink-soft);}
+  .how-steps li{counter-increment:s;background:var(--paper-2);border:1px solid var(--line-soft);border-radius:var(--radius-md);padding:18px 18px 16px;font-size:15px;color:var(--ink-soft);}
   .how-steps li::before{content:counter(s,decimal-leading-zero);display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);margin-bottom:6px;}
   .how-steps b{color:var(--ink);}
   @media (max-width:760px){.how-steps{grid-template-columns:1fr;}}
@@ -148,8 +148,9 @@
 
   /* ---------- Rounded corners (boxes that were square) ----------
      Same scale as jcady.org's theme.css. :where() keeps these at zero
-     specificity, so they never override a radius set anywhere else;
-     --radius (2px) is unchanged. */
+     specificity, so they never override a radius set anywhere else.
+     The panels, step cards, fields and photo above that used --radius (2px)
+     now use --radius-md or --radius-sm directly. */
   :root{--radius-sm:8px;--radius-md:12px;--radius-lg:14px;--radius-pill:999px;}
   :where(.tile-grid){border-radius:var(--radius-md);overflow:hidden;} /* tiles and package cards stay square inside it */
   :where(.card,.form-status){border-radius:var(--radius-md);}
